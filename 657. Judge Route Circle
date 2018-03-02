@@ -1,0 +1,17 @@
+https://leetcode.com/problems/judge-route-circle/description/
+
+1 86.25%，空间换时间
+
+class Solution {
+    public boolean judgeCircle(String moves) {
+        int[] a = new int[256];
+        int l = moves.length();
+        for(int i=0;i<l;i++) {
+        	a[moves.charAt(i)]++;
+        }
+        if(a['U']==a['D'] && a['L']==a['R'])
+        	return true;
+        else
+        	return false;
+    }
+}
