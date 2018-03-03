@@ -1,0 +1,15 @@
+https://leetcode.com/problems/reverse-words-in-a-string-iii/description/
+
+1 . 13ms 69.04%
+class Solution {
+    public String reverseWords(String s) {
+        String[] ss = s.split(" ");
+        int l = ss.length;
+        StringBuffer ans = new StringBuffer();
+        ans.append(new StringBuffer(ss[0]).reverse());
+        for (int i=1;i<l;i++){
+            ans.append(" "+ new StringBuffer(ss[i]).reverse());
+        }
+        return ans.toString();
+    }
+}
