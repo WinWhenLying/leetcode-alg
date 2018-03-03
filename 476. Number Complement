@@ -1,0 +1,15 @@
+https://leetcode.com/problems/number-complement/description/
+
+1. 11ms     49.11%
+class Solution {
+    public int findComplement(int num) {
+        int n=1,temp,ans=0;
+        while (num != 0){
+            temp = 1 - num%2;
+            ans += temp * n;
+            n *= 2;
+            num /= 2;
+        }
+        return ans;
+    }
+}
