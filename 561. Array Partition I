@@ -11,3 +11,35 @@ class Solution {
         return ans;
     }
 }
+
+2. 15ms 99.42%
+看评论区一个C++答案知道的
+
+class Solution {
+    public int arrayPairSum(int[] nums) {
+        int[] a = new int[20005];
+        int l=nums.length;
+        int i;
+        for(i=0;i<l;i++){
+            a[nums[i]+10000]++;
+        }
+        int ans=0;
+        boolean flag = true;
+        for(i=0;i<20005;){
+            if(a[i] == 0){
+                i++;
+                continue;
+            } else {
+                if(flag){
+                    ans+= i - 10000;
+                    a[i]--;
+                    flag = false;
+                } else {
+                    a[i]--;
+                    flag = true;
+                }
+            }
+        }
+        return ans;
+    }
+}
