@@ -1,0 +1,43 @@
+https://leetcode.com/problems/keyboard-row/description/
+
+1. 3ms 76.85% (我觉得我的答案已经超蠢了，还是赢了76.85%）
+
+class Solution {
+    char[] row1 = {'q','w','e','r','t','y','u','i','o','p'};
+    char[] row2 = {'a','s','d','f','g','h','j','k','l'};
+    public String[] findWords(String[] words) {
+        int l = words.length;
+        ArrayList<String> ans = new ArrayList<>();
+        for(int i=0;i<l;i++){
+            if(can(words[i]))
+                ans.add(words[i]);
+        }
+        l = ans.size();
+        String[] ans1 = new String[l];
+        for(int i=0;i<l;i++){
+            ans1[i] = ans.get(i);
+        }
+        return ans1;
+    }
+    private boolean can(String s){
+        String temp = s.toLowerCase();
+        int l = temp.length();
+        int tag = row(temp.charAt(0));
+        for(int i=1;i<l;i++){
+            if(row(temp.charAt(i)) != tag)
+                return false;
+        }
+        return true;
+    }
+    private int row(char c){
+        for(int i=0;i<10;i++){
+            if(c == row1[i])
+                return 1;
+        }
+        for(int i=0;i<9;i++){
+            if(c == row2[i])
+                return 2;
+        }
+        return 3;
+    }
+}
