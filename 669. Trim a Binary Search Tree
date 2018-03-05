@@ -1,0 +1,42 @@
+https://leetcode.com/problems/trim-a-binary-search-tree/description/
+
+1. 7ms 25.38%
+
+public class Solution {
+	int l;
+	int r;
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        l=L;
+        r=R;
+        return helper(root);
+    }
+    private TreeNode helper(TreeNode root) {
+    	if(root == null)
+    		return root;
+    	if(root.val < l) {
+    		return helper(root.right);
+    	} else if(root.val > r) {
+    		return helper(root.left);
+    	} else {
+    		root.left = helper(root.left);
+    		root.right = helper(root.right);
+    		return root;
+    	}
+    }
+}
+
+2. 简化一下（1太啰嗦了，可以合并的），运行效果一样
+class Solution {
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if (root == null) return null;       
+        if (root.val < L) return trimBST(root.right, L, R);
+        if (root.val > R) return trimBST(root.left, L, R);
+        
+        root.left = trimBST(root.left, L, R);
+        root.right = trimBST(root.right, L, R);
+        
+        return root;
+    }
+}
+
+感觉已经是最简单的递归了，非递归好麻烦，算了
