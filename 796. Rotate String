@@ -1,0 +1,31 @@
+https://leetcode.com/problems/rotate-string/description/
+
+1 4ms 86.75%
+
+class Solution {
+    public boolean rotateString(String A, String B) {
+        if(A.length() != B.length())
+            return false;
+        char c = A.charAt(0);
+        int index = B.indexOf(c,0);
+        int nowIndex;
+        int i;
+        while (index != -1){
+            nowIndex = index;
+            for(i=1;i<A.length();i++){
+                if(index+i >= A.length()){
+                    nowIndex = index + i - A.length();
+                } else {
+                    nowIndex = index + i;
+                }
+                if(A.charAt(i) != B.charAt(nowIndex))
+                    break;
+            }
+            if(i == A.length())
+                return true;
+            else
+                index = B.indexOf(c,index+1);
+        }
+        return false;
+    }
+}
