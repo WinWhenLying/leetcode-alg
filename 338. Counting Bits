@@ -1,0 +1,19 @@
+https://leetcode.com/problems/counting-bits/description/
+
+1 2ms 100%  !!!!!!!!
+  高位的1其实就是2的n次方，就是flag的值
+  class Solution {
+    public int[] countBits(int num) {
+        int[] ans = new int[num+1];
+        ans[0] = 0;
+        if(num > 0)
+            ans[1] = 1;
+        int flag = 1;
+        for(int i=2;i<=num;i++){
+            if(i%flag == 0) flag *= 2;
+            ans[i] = 1+ ans[i-flag];
+        }
+        return ans;
+    }
+}
+感觉我很强，discuss里面都是用&的瓜皮，规律都不会找
