@@ -1,0 +1,61 @@
+https://leetcode.com/problems/partition-labels/description/
+
+1 20ms 39.93%
+  思路：从第一个字符开始，依次找后面这个字符的位置，确定该字符对应的右边界，找该右边界范围内最大的右边界，更新，循环直到i等于右边界（大于等于是因为右边界可能是-1）；
+  class Solution {
+     public List<Integer> partitionLabels(String S) {
+        List<Integer> ans = new ArrayList<>();
+        char c = S.charAt(0);
+        int now,left=-1,right=-1;
+        int l = S.length();
+        for(int i=0;i<l;i++){
+            c = S.charAt(i);
+            now = nextMax(S,c,i);
+            if(now > right){
+                right = now;
+            } else if(i >= right){
+                ans.add(i-left);
+                left = i;
+                right = -1;
+            }
+        }
+        return ans;
+    }
+    private int nextMax(String S,char c,int index){
+        int next,temp;
+        next = S.indexOf(c,index+1);
+        temp = next;
+        if(next == -1){
+            return -1;
+        } else {
+            while (next != -1) {
+                temp = next;
+                next = S.indexOf(c, next+1);
+            }
+            return temp;
+        }
+    }
+}
+
+2 15ms 86.28%
+  from discuss:  求解思路是一样的，但是借用了一个int数组来存储每个char的右边界，快很多，代码量也简单很多
+  class Solution {
+    public List<Integer> partitionLabels(String S) {
+        List<Integer> ans = new ArrayList<>();
+        int l = S.length();
+        int[] map = new int[26];
+        //找到每个字符的右边界
+        for (int i = 0; i < l; i++) {
+            map[S.charAt(i) - 'a'] = i;
+        }
+        int start = -1, end = 0;
+        for (int i = 0; i < l; i++) {
+            end = Math.max(end, map[S.charAt(i) - 'a']);
+            if (i == end) {
+                ans.add(end - start);
+                start = i + 1;
+            }
+        }
+        return ans;
+    }
+}
