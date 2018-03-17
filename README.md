@@ -1,4 +1,5 @@
 # leetcode-alg
-语言是java , mySQL
+语言是java
 
-github好麻烦，先用onenote记录了
+算法题按通过率排序，从易到难
+
