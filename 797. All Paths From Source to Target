@@ -1,0 +1,56 @@
+https://leetcode.com/problems/all-paths-from-source-to-target/description/
+
+1 11ms 48.54%
+class Solution {
+    List<Integer> path = new ArrayList<>(20);
+    List<List<Integer>> ans = new ArrayList<>();
+    int destination;
+    int[][] g;
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        destination = graph.length - 1;
+        g = graph;
+        path.add(0);
+        findPath(0);
+        return ans;
+    }
+    private void findPath(int n){
+        if(n == destination){
+            ArrayList<Integer> temp = new ArrayList<>(20);
+            for(int i=0;i<path.size();i++){
+                temp.add(path.get(i));
+            }
+            ans.add(temp);
+            return;
+        } else {
+            for(int i=0;i<g[n].length;i++){
+                path.add(g[n][i]);
+                findPath(g[n][i]);
+                path.remove(path.size()-1);
+            }
+        }
+    }
+}
+
+2 8ms 86.30%
+  from discuss，思路是一样的，但是做法简洁的多，而且没全局变量，全局变量很慢
+  ArrayList复制直接 new ArrayList<Integer>(path)就可以了，不用写倒霉的循环
+  class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> path = new ArrayList<>(20);					
+        path.add(0);
+        dfsSearch(graph, 0, res, path);					
+        return res;
+    }
+    private void dfsSearch(int[][] graph, int node, List<List<Integer>> res, List<Integer> path) {
+        if (node == graph.length - 1) {
+            res.add(new ArrayList<Integer>(path));
+            return;
+        }
+        for (int nextNode : graph[node]) {
+            path.add(nextNode);
+            dfsSearch(graph, nextNode, res, path);
+            path.remove(path.size() - 1);
+        }
+    }
+}
