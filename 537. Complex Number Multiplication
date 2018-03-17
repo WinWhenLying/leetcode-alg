@@ -1,0 +1,21 @@
+https://leetcode.com/problems/complex-number-multiplication/description/
+
+1 8ms 52.67%
+
+  class Solution {
+    public String complexNumberMultiply(String a, String b) {
+        int[] aa = toComplex(a);
+        int[] bb = toComplex(b);
+        int[] ans = new int[2];
+        ans[0] = aa[0]*bb[0] - aa[1]*bb[1];
+        ans[1] = aa[0]*bb[1] + aa[1]*bb[0];
+        return ans[0]+"+"+ans[1]+"i";
+    }
+    private int[] toComplex(String s){
+        String[] ss = s.split("\\+");
+        int[] a = new int[2];
+        a[0] = Integer.parseInt(ss[0]);
+        a[1] = Integer.parseInt(ss[1].split("i")[0]);
+        return a;
+    }
+}
