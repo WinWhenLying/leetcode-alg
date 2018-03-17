@@ -1,0 +1,65 @@
+https://leetcode.com/problems/custom-sort-string/description/
+
+1 5ms 69.37%
+
+class Solution {
+    public String customSortString(String S, String T) {
+        int[] numC = new int[26];
+        boolean[] scan = new boolean[26];
+        for(int i=0;i<T.length();i++){
+            numC[T.charAt(i)-'a']++;
+        }
+        StringBuffer ans = new StringBuffer(T.length());
+        char temp;
+        int i,j;
+        for(i=0;i<S.length();i++){
+            temp = S.charAt(i);
+            scan[temp-'a'] = true;
+            for(j=0;j<numC[temp-'a'];j++){
+                ans.append(temp);
+            }
+        }
+        for(i=0;i<26;i++){
+            if(scan[i]){
+                continue;
+            } else {
+                for(j=0;j<numC[i];j++){
+                    ans.append((char)(i+'a'));
+                }
+            }
+        }
+        return ans.toString();
+    }
+}
+
+2 4ms 99.94%
+  用StringBuilder更快，说是啥非线程安全，不管
+  class Solution {
+    public String customSortString(String S, String T) {
+        int[] numC = new int[26];
+        boolean[] scan = new boolean[26];
+        for(int i=0;i<T.length();i++){
+            numC[T.charAt(i)-'a']++;
+        }
+        StringBuilder ans = new StringBuilder(T.length());
+        char temp;
+        int i,j;
+        for(i=0;i<S.length();i++){
+            temp = S.charAt(i);
+            scan[temp-'a'] = true;
+            for(j=0;j<numC[temp-'a'];j++){
+                ans.append(temp);
+            }
+        }
+        for(i=0;i<26;i++){
+            if(scan[i]){
+                continue;
+            } else {
+                for(j=0;j<numC[i];j++){
+                    ans.append((char)(i+'a'));
+                }
+            }
+        }
+        return ans.toString();
+    }
+}
