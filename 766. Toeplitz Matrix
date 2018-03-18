@@ -1,0 +1,39 @@
+https://leetcode.com/problems/toeplitz-matrix/description/
+
+1 32ms 17.92%
+  class Solution {
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int i,j,k;
+        int temp;
+        for(i=0;i<n;i++){
+            for(j=i,k=0;j<n-1 && k<m-1;j++,k++){
+                if(matrix[j][k] != matrix[j+1][k+1]){
+                    return false;
+                }
+            }
+        }
+        for (i=0;i<m;i++){
+            for(j=0,k=i;j<n-1 && k<m-1;j++,k++){
+                if(matrix[j][k] != matrix[j+1][k+1]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+2 29ms 70.37%   
+  from discuss,我真蠢
+  class Solution {
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length - 1; i++) {
+            for (int j = 0; j < matrix[i].length - 1; j++) {
+                if (matrix[i][j] != matrix[i + 1][j + 1]) return false;
+            }
+        }
+        return true;
+    }
+}
