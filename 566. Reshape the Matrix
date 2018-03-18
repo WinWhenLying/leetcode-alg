@@ -1,0 +1,24 @@
+https://leetcode.com/problems/reshape-the-matrix/description/
+
+1 8ms 61.08%
+class Solution {
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        int m = nums.length;
+        int n = nums[0].length;
+        if(m*n != r*c)
+            return nums;
+        int[][] ans = new int[r][c];
+        int i1,i2=0,j1,j2=0;
+        for(i1=0;i1<m;i1++){
+            for(j1=0;j1<n;j1++){
+                ans[i2][j2] = nums[i1][j1];
+                j2++;
+                if(j2 == c){
+                    i2++;
+                    j2 = 0;
+                }
+            }
+        }
+        return ans;
+    }
+}
