@@ -1,0 +1,23 @@
+https://leetcode.com/problems/beautiful-arrangement-ii/description/
+
+1. 7ms 84.07%
+  from discuss:不看discuss完全没思路
+  class Solution {
+    public int[] constructArray(int n, int k) {
+        int[] ans = new int[n];
+        int left=1,right=n;
+        for(int i=0;i<n;i++){
+            if(k%2 == 0){
+                ans[i] = left;
+                left++;
+            } else {
+                ans[i] = right;
+                right--;
+            }
+            if(k>1){
+                k--;
+            }
+        }
+        return ans;
+    }
+}
