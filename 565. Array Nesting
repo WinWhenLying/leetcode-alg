@@ -1,0 +1,54 @@
+
+https://leetcode.com/problems/array-nesting/description/
+
+1 47ms  41.58%   O(n),额外n的空间
+/*
+    nums里面有很多的闭环，求最大的闭环
+    弄一个辅助的布尔数组b，开始全为false
+    nums[i]访问过对应的b[i]就是true，防止重复访问
+    求每个闭环的节点数目就可以了
+ */
+class Solution {
+    public int arrayNesting(int[] nums) {
+        boolean[] b = new boolean[nums.length];
+        int ans = 0;
+        int nowAns,temp;
+        for(int i=0;i<nums.length;i++){
+            if(b[i]){
+                continue;
+            } else {
+                nowAns = 0;
+                temp = i;
+                while (!b[temp]){
+                    nowAns++;
+                    b[temp] = true;
+                    temp = nums[temp];
+                }
+                ans = Math.max(ans,nowAns);
+            }
+        }
+        return ans;
+    }
+}
+
+2 from discuss  45ms 56.97%   O(n)
+/*
+    nums里面有很多的闭环，求最大的闭环
+    不需要辅助的布尔数组，访问过的nums[i]直接赋值为-1
+    求每个闭环的节点数目
+ */
+public class Solution {
+    public int arrayNesting(int[] a) {
+        int maxsize = 0;
+        for (int i = 0; i < a.length; i++) {
+            int size = 0;
+            for (int k = i; a[k] >= 0; size++) {
+                int ak = a[k];
+                a[k] = -1; // mark a[k] as visited;
+                k = ak;
+            }
+            maxsize = Integer.max(maxsize, size);
+        }
+        return maxsize;
+    }
+}
