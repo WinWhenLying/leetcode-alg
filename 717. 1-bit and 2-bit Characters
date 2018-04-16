@@ -1,0 +1,23 @@
+https://leetcode.com/problems/1-bit-and-2-bit-characters/description/
+
+1 8ms 95.92%
+/*
+    末尾0与上一个0之间有偶数个1，就是true，奇数个为false
+ */
+class Solution {
+    public boolean isOneBitCharacter(int[] bits) {
+        int num = 0;
+        for(int i = bits.length - 2;i >= 0;i--){
+            if(bits[i] == 0){
+                break;
+            } else {
+                num++;
+            }
+        }
+        if(num % 2 == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
