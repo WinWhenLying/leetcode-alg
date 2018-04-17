@@ -1,0 +1,48 @@
+https://leetcode.com/problems/majority-element/description/
+
+1 弄一个map辅助，就是暴力求解
+class Solution {
+    public int majorityElement(int[] nums) {
+        Map<Integer,Integer> m = new HashMap<>(nums.length);
+        for(int i=0;i<nums.length;i++){
+            if(m.containsKey(nums[i])){
+                m.put(nums[i],m.get(nums[i])+1);
+            } else {
+                m.put(nums[i],1);
+            }
+        }
+        int ans = 0;
+        for(int key : m.keySet()){
+            if(m.get(key) > nums.length/2){
+                ans = key;
+            }
+        }
+        return ans;
+    }
+}
+
+2 from discuss  O(N)
+/*
+    http://www.cs.utexas.edu/~moore/best-ideas/mjrty/index.html
+    前提是majority存在（数量大于n/2）
+    代码流程很好懂，主要是内在逻辑
+    count回到0其实就相当于前面子串不存在，求后面子串的majiority
+    最坏情况，所有A的count都被其他抵消了，但还是可以得到A
+    正常情况，其他数字互相之间count有抵消，那么肯定也能剩下A
+ */
+public class Solution {
+    public int majorityElement(int[] num) {
+
+        int major=num[0], count = 1;
+        for(int i=1; i<num.length;i++){
+            if(count==0){
+                count++;
+                major=num[i];
+            }else if(major==num[i]){
+                count++;
+            }else count--;
+            
+        }
+        return major;
+    }
+}
