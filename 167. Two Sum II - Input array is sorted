@@ -1,0 +1,59 @@
+https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
+
+1 0ms 100% 应该是O(logN)吧
+
+/* 利用二分查找
+ * 先找该左值的右边界，然后用得到的右边界找左边界
+ * 一直往中间逼近
+ * 直到找到答案
+ */
+
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int[] ans = new int[2];
+        int left = 0, right = numbers.length-1;
+        while(numbers[left] + numbers[right] != target) {
+        	right = findMax(numbers,left+1,right,target-numbers[left]);
+        	left = findMin(numbers,left,right-1,target-numbers[right]);
+        }
+        ans[0] = left + 1;
+        ans[1] = right + 1;
+        return ans;
+    }
+    // 找不大于target的最大值
+    private int findMax(int[] numbers, int left, int right, int target){
+    	while(left < right) {
+    		int mid = (left + right) / 2;
+    		if(numbers[mid] == target) {
+    			return mid;
+    		} else if(numbers[mid] > target) {
+    			right = mid - 1;
+    		} else {
+    			left = mid + 1;
+    		}
+    	}
+    	if(numbers[right] > target) {
+    		return right - 1;
+    	} else {
+    		return right;
+    	}
+    }  
+    // 找不小于target的最小值
+    private int findMin(int[] numbers, int left, int right, int target){
+    	while(left < right) {
+    		int mid = (left + right) / 2;
+    		if(numbers[mid] == target) {
+    			return mid;
+    		} else if(numbers[mid] > target) {
+    			right = mid - 1;
+    		} else {
+    			left = mid + 1;
+    		}
+    	}
+    	if(numbers[left] < target) {
+    		return left + 1;
+    	} else {
+    		return left;
+    	}
+    } 
+}
