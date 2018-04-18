@@ -1,0 +1,38 @@
+https://leetcode.com/problems/image-smoother/description/
+
+1 23ms 99.93%
+/*
+    就是暴力求解
+ */
+class Solution {
+    public int[][] imageSmoother(int[][] M) {
+        int[][] ans = new int[M.length][M[0].length];
+        for(int i=0;i<M.length;i++){
+            for(int j=0;j<M[0].length;j++){
+                ans[i][j] = smooth(M,i,j);
+            }
+        }
+        return ans;
+    }
+    // smooth M[x][y]
+    private int smooth(int[][] M, int x, int y){
+        int count=0,sum=0;
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+                if(isValid(x+i,y+j,M.length,M[0].length)){
+                    count++;
+                    sum += M[x+i][y+j];
+                }
+            }
+        }
+        return sum/count;
+    }
+    // 判断是否越界
+    private boolean isValid(int i, int j, int row, int col){
+        if(i>=0 && j>=0 && i<row && j<col){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
