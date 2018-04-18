@@ -1,0 +1,33 @@
+https://leetcode.com/problems/degree-of-an-array/description/
+
+1 27ms 94.70% O(N)
+
+/* 
+ * 利用三个数组
+ * left记录第一次出现的位置，right记录最后一次出现的位置，差值+1即为最小长度
+ * count记录出现的次数
+ * 空间复杂度有点大
+ */
+
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        int[] left = new int[50000];
+        int[] right = new int[50000];
+        int[] count = new int[50000];
+        int maxi = 0;
+        for(int i=0;i<nums.length;i++) {
+        	if(count[nums[i]] == 0) {
+        		left[nums[i]] = i;
+        	} 
+        	right[nums[i]] = i;
+        	count[nums[i]]++;
+        	if(count[nums[i]] > count[nums[maxi]]) {
+        		maxi = i;
+        	} else if(count[nums[i]] == count[nums[maxi]] && 
+        			(right[nums[i]]-left[nums[i]]) < (right[nums[maxi]]-left[nums[maxi]])) {
+        		maxi = i;
+        	}
+        }
+        return right[nums[maxi]] - left[nums[maxi]] + 1;
+    }
+}
