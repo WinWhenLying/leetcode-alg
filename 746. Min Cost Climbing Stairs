@@ -1,0 +1,40 @@
+https://leetcode.com/problems/min-cost-climbing-stairs/description/
+
+1 /* 超时了！！！！！
+ * 弄一个递归，暴力求解
+ */
+
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        return minCost(cost,0);      
+    }
+    // 求从start开始最少花费
+    private int minCost(int[] cost, int start) {
+    	if(start == cost.length-1) {
+    		return 0;
+    	} else if(start == cost.length-2) {
+    		return Math.min(cost[start], cost[start+1]);
+    	} else {
+    		return Math.min(cost[start]+minCost(cost,start+1), cost[start+1]+minCost(cost,start+2));
+    	}
+    }
+}
+
+2 from discuss  时间O(N）空间O(1)  20ms 82.49%
+/* 其实只要保存到达上两个阶梯的花费就可以了
+ * 当前阶梯的最小花费等于last2+cost[i-2]与last1+cost[i-1]之间的最小值
+ */
+
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+    	// last2 到达倒数第二个阶梯的花费， last1叨叨倒数第一个阶梯的花费
+    	int last2 = 0, last1 = 0;
+    	int temp;
+    	for(int i=2;i<cost.length;i++) {
+    		temp = last1;
+    		last1 = Math.min(last2+cost[i-2], last1+cost[i-1]);
+    		last2 = temp;
+    	}
+    	return Math.min(last2+cost[cost.length-2], last1+cost[cost.length-1]);
+    }
+}
