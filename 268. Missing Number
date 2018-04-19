@@ -1,0 +1,15 @@
+https://leetcode.com/problems/missing-number/description/
+
+1 from discuss
+我自己想的是搞个bool数组，O(2N)好蠢，还要O(N)的空间
+discuss直接利用加和之差为所缺的数
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int sum = 0;
+        for(int i=0;i<nums.length;i++) {
+        	sum += i - nums[i];
+        }
+        return sum + nums.length;
+    }
+}
