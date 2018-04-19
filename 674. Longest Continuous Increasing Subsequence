@@ -1,0 +1,45 @@
+https://leetcode.com/problems/longest-continuous-increasing-subsequence/description/
+
+1 6ms 62%
+/* 最大连续上升子列
+ * ans存储当前最大连续上升子列
+ * 每一个最大连续上升子列计算出来就可以把前面所有的丢掉计算后面的
+ */
+
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        int ans = 0;
+        for(int i=0;i<nums.length;i++) {
+        	int temp = i;
+        	while(i<nums.length-1 && nums[i+1] > nums[i]) {
+        		i++;
+        	}
+        	ans = Math.max(ans, i-temp+1);
+        }
+        return ans;
+    }
+}
+
+2 别人的答案 100%
+算法是一样的，更快的原因是我的每个i都做了一次Math.max，他没有
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        if(nums.length == 0) {
+			return 0;
+		}
+        int maxCounter = 1;
+	    int curentCounter = 1;
+	    for(int i=0; i< nums.length-1; i++) {
+	    	if(nums[i] < nums[i+1]) {
+	    		curentCounter ++;
+	    		if(curentCounter > maxCounter) {
+	    			maxCounter = curentCounter;
+	    		}
+	    	}
+	    	else {
+	    		curentCounter = 1;
+	    	}
+	    }
+	    return maxCounter;
+    }
+}
