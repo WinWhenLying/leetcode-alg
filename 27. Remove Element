@@ -1,0 +1,23 @@
+https://leetcode.com/problems/remove-element/description/
+
+1 9ms 99.06% O(N)
+
+/* i从前往后，j从后往前
+ * 当nums[i]为val要移除的时候，赋值为不等于val的nums[j]
+ */
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int j = nums.length - 1;
+        for(int i=0;i<=j;i++) {
+        	if(nums[i] == val) {
+        		while(nums[j] == val && j>i) {
+        			j--;
+        		}
+        		nums[i] = nums[j];
+        		j--;
+        	}
+        }
+        return j+1;
+    }
+}
