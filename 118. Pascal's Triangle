@@ -1,0 +1,28 @@
+https://leetcode.com/problems/pascals-triangle/description/
+
+1ms 99.87%
+/* 暴力求解
+ * new一个List指定大小就可以了
+ */
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {  	
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        if(numRows == 0) {
+    		return ans;
+    	}
+        List<Integer> now = new ArrayList<Integer>(1);
+        now.add(1);
+        ans.add(now);
+        for(int i=1;i<numRows;i++) {
+        	now = new ArrayList<Integer>(i+1);
+        	now.add(1);
+        	for(int j=1;j<i;j++) {
+        		now.add(ans.get(i-1).get(j-1)+ans.get(i-1).get(j));
+        	}
+        	now.add(1);
+        	ans.add(now);
+        }
+        return ans;
+    }
+}
