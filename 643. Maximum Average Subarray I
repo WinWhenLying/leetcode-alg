@@ -1,0 +1,22 @@
+https://leetcode.com/problems/maximum-average-subarray-i/description/
+1 18ms 85.96%
+/* nowSum存储当前k个值的和，maxSum为最大和
+ * 对于第i个数，nowSum等于上一个nowSum + nums[i]-nums[i-k];
+ * 时间O(n)  空间O(1)
+ */
+class Solution {
+    public double findMaxAverage(int[] nums, int k) {
+        int nowSum = 0;
+        for(int i=0;i<k;i++) {
+        	nowSum += nums[i];
+        }
+        int maxSum = nowSum;
+        for(int i=k;i<nums.length;i++) {
+        	nowSum += nums[i] - nums[i-k];
+        	if(nowSum > maxSum) {
+        		maxSum = nowSum;
+        	}
+        }
+        return maxSum*1.0/k;
+    }
+}
