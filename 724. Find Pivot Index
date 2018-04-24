@@ -1,0 +1,57 @@
+https://leetcode.com/problems/find-pivot-index/description/
+
+1 47ms 18.03%
+/* 开一个leftSum和rightSum数组
+ * 最坏时间复杂度O(2N)，空间复杂度也是O(2N)
+ * 很蠢
+ */
+
+class Solution {
+    public int pivotIndex(int[] nums) {
+    	if(nums.length == 0) {
+    		return -1;
+    	}
+    	int[] rightSum = new int[nums.length];
+    	rightSum[rightSum.length-1]=0;
+    	int[] leftSum = new int[nums.length];
+    	leftSum[0]=0;
+        for(int i=nums.length-2;i>=0;i--) {
+        	rightSum[i] = rightSum[i+1]+nums[i+1];
+        }
+        if(leftSum[0] == rightSum[0]) {
+        	return 0;
+        }
+        for(int i=1;i<nums.length;i++) {
+        	leftSum[i] = leftSum[i-1] + nums[i-1];
+        	if(leftSum[i] == rightSum[i]) {
+        		return i;
+        	}
+        }
+        return -1;
+    }
+}
+
+2 其他人的答案（最快的）
+/* 一个变量sum存储nums[]元素之和，
+ * 一个变量left存储该元素左边的和
+ * sum - left - nums[i] == left即得答案
+ * 时间复杂度O(2N),空间复杂度O(1),代码也简洁的多
+ */
+
+class Solution {
+    public int pivotIndex(int[] nums) {
+    	int sum = 0;
+    	for(int val : nums) {
+    		sum += val;
+    	}
+    	int left=0;
+    	for(int i=0;i<nums.length;i++) {
+    		if(sum-left-nums[i] == left) {
+    			return i;
+    		} else {
+    			left += nums[i];
+    		}
+    	}
+    	return -1;
+    }
+}
