@@ -1,0 +1,45 @@
+https://leetcode.com/problems/pascals-triangle-ii/description/
+
+1 3ms 53.91%
+/* 额外一个arrayList存储上一行的数据
+ */
+class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> last = new ArrayList<Integer>(1);
+        last.add(1);
+        if(rowIndex == 0) {
+        	return last;
+        }
+        List<Integer> ans = last;
+        for(int i=0;i<=rowIndex;i++) {
+        	ans = new ArrayList<Integer>(i+1);
+        	ans.add(1);
+        	for(int j=0;j<i-1;j++) {
+        		ans.add(last.get(j)+last.get(j+1));
+        	}
+        	ans.add(1);
+        	last = ans;
+        }
+        return ans;
+    }
+}
+2 1ms 99.88%
+/* 用数组实现，返回的时候转成List会快很多
+ */
+class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        Integer[] last = new Integer[1];
+        last[0] = 1;
+        Integer[] ans = last;
+        for(int i=0;i<=rowIndex;i++) {
+        	ans = new Integer[i+1];
+        	ans[0]=1;
+        	for(int j=1;j<i;j++) {
+        		ans[j] = last[j] + last[j-1];
+        	}
+        	ans[ans.length-1] = 1;
+        	last = ans;
+        }
+        return Arrays.asList(ans);
+    }
+}
