@@ -1,0 +1,33 @@
+https://leetcode.com/problems/shortest-unsorted-continuous-subarray/description/
+
+1 24ms 94.93% 时间O(2N)，空间O(1)
+/* 找左右边界
+ * 左边界：它大于右边的最小值
+ * 右边界：它小于左边最大值
+ */
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+    	if(nums.length == 1) {
+    		return 0;
+    	}
+    	//右边最大值，左边界
+        int rightMin=nums.length-1, left=rightMin;
+        for(int i=nums.length-2;i>=0;i--) {
+        	if(nums[i] > nums[rightMin]) {
+        		left = i;
+        	} 
+        	else if(nums[i] < nums[rightMin]) {
+        		rightMin = i;
+        	}
+        }
+        int leftMax=0,right=0;
+        for(int i=1;i<nums.length;i++) {
+        	if(nums[i] > nums[leftMax]) {
+        		leftMax = i;
+        	} else if(nums[i] < nums[leftMax]){
+        		right = i;
+        	}
+        }
+        return Math.max(right-left+1, 0);
+    }
+}
