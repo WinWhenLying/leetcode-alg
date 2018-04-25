@@ -1,0 +1,27 @@
+https://leetcode.com/problems/non-decreasing-array/description/
+
+1 from discuss 答案里面全是这个解法
+/* 如果nums[i]小于nums[i-1]的话
+ * 	  1. 如果nums[i]也小于nums[i-2]，那只能移动nums[i]  (剔除nums[i]),
+ *    2。否则移动nums[i-1]  (剔除nums[i-1])
+ * 尽量保证左边序列最大值最小，只有左边序列最大值小，总序列才更可能有序 
+ */
+class Solution {
+    public boolean checkPossibility(int[] nums) {
+        int count = 0;
+        for(int i=1;i<nums.length;i++) {
+        	if(nums[i] < nums[i-1]) {
+        		count++;
+        		if(count > 1) {
+        			return false;
+        		}
+        		if(i==1 || nums[i-2] <= nums[i]) {
+        			nums[i-1] = nums[i];
+        		} else {
+        			nums[i] = nums[i-1];
+        		}
+        	}
+        }
+        return true;
+    }
+}
