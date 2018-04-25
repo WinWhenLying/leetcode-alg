@@ -1,0 +1,59 @@
+https://leetcode.com/problems/k-diff-pairs-in-an-array/description/
+1 from discuss
+/* 还是得用Set
+ * count记录对数（一对中的最小数）
+ * st记录nums;
+ * 还是直接用Array.sort比较快
+ * 这题真傻逼
+ */
+class Solution {
+    public int findPairs(int[] nums, int k) {
+    	if(k<0) {
+    		return 0;
+    	}
+    	Set<Integer> count = new HashSet<Integer>();
+    	Set<Integer> st = new HashSet<Integer>();
+    	for(int n:nums) {
+    		if(st.contains(n-k)) {
+    			count.add(n-k);
+    		}
+    		if(st.contains(n+k)) {
+    			count.add(n);
+    		}
+    		st.add(n);
+    	}
+    	return count.size();
+    }
+}
+
+2 别人的答案
+16ms 96.70%
+/* 先排序，从小到大遍历
+ * 比当前值大k的都在后面
+ */
+class Solution {
+    public int findPairs(int[] nums, int k) {
+    	if(k<0 || nums.length<=1) {
+    		return 0;
+    	}
+    	int count = 0;
+    	Arrays.sort(nums);
+    	for(int left=0,right=1;left<nums.length && right<nums.length;) {
+    		if(nums[right] == nums[left]+k) {
+    			count++;
+    			left++;
+    			while(left<nums.length && nums[left-1]==nums[left]) {
+    				left++;
+    			}
+    		} else if(nums[right] < nums[left] + k) {
+    			right++;
+    		} else {
+    			left++;
+    		}
+    		if(right <= left) {
+    			right = left + 1;
+    		}
+    	}
+    	return count;
+    }
+}
