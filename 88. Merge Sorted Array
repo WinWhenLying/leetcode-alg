@@ -1,0 +1,26 @@
+https://leetcode.com/problems/merge-sorted-array/description/
+1 5ms 99.91%
+/* 从后往前遍历
+ * 不需要额外开空间
+ */
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        for(int i=m-1,j=n-1,k=m+n-1;k>=0;k--) {
+        	if(i < 0) {
+        		nums1[k] = nums2[j];
+        		j--;
+        	} else if(j < 0) {
+        		//nums1前面是有序的，不用管
+        		break;
+        	} else {
+        		if(nums1[i] > nums2[j]) {
+        			nums1[k] = nums1[i];
+        			i--;
+        		} else {
+        			nums1[k] = nums2[j];
+        			j--;
+        		}
+        	}
+        }
+    }
+}
