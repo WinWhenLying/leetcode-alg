@@ -1,0 +1,29 @@
+https://leetcode.com/problems/rotate-array/description/
+完全没思路
+1 from discuss
+/* 全反转
+ * 反转前k项
+ * 反转后面的
+ * OK
+ */
+class Solution {
+    public void rotate(int[] nums, int k) {
+        k = k % nums.length;
+        if(k != 0) {
+        	reverse(nums,0,nums.length-1);
+        	reverse(nums,0,k-1);
+        	reverse(nums,k,nums.length-1);
+        }
+    }
+    //将数组nums中start到end中间的子列反转
+    private void reverse(int[] nums,int start,int end) {
+    	int temp;
+    	while(start < end) {
+    		temp = nums[start];
+    		nums[start] = nums[end];
+    		nums[end] = temp;
+    		start++;
+    		end--;
+    	}
+    }
+}
