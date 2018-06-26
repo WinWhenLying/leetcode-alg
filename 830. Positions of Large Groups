@@ -1,0 +1,25 @@
+https://leetcode.com/problems/positions-of-large-groups/description/
+1. 18 ms 时间O(n)空间O(1)
+class Solution {
+    public List<List<Integer>> largeGroupPositions(String S) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        for(int i=0;i<S.length();i++) {
+        	int count = 1;
+        	for(int j=i+1;j<S.length();j++) {
+        		if(S.charAt(j) == S.charAt(i)) {
+        			count++;
+        			i = j;
+        		} else {
+        			break;
+        		}
+        	}
+        	if(count >= 3) {
+        		List<Integer> LargeGroup = new ArrayList<Integer>(2);
+        		LargeGroup.add(i-count+1);
+        		LargeGroup.add(i);
+        		ans.add(LargeGroup);
+        	}
+        }
+        return ans;
+    }
+}
