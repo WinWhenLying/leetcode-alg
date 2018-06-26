@@ -1,0 +1,30 @@
+https://leetcode.com/problems/flipping-an-image/description/
+
+1. 7ms，时间复杂度O（m*n）,空间O（1）
+
+Accepted Solutions Runtime Distribution
+Sorry. We do not have enough accepted submissions to show runtime distribution chart.
+
+class Solution {
+    public int[][] flipAndInvertImage(int[][] A) {
+        for(int i=0;i<A.length;i++) {
+        	flip(A,i);
+        	invert(A,i);
+        }
+        return A;
+    }
+    private void flip(int[][] A, int row) {
+    	int l = A[row].length;
+    	int temp;
+    	for(int i=0;i<l/2;i++) {
+    		temp = A[row][i];
+    		A[row][i] = A[row][l-i-1];
+    		A[row][l-i-1] = temp;
+    	}
+    }
+    private void invert(int[][] A,int row) {
+    	for(int i=0;i<A[row].length;i++) {
+    		A[row][i] = 1 - A[row][i];
+    	}
+    }
+}
