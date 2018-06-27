@@ -1,0 +1,23 @@
+from discuss
+
+证明：重复i = nums[i],必然在一个环内。fast一次走两步，slow一次走一步，必然相遇在环内。当它们相遇，假设走了s步，环长c，那么2s=s+n*c, 即 s=n*c;
+      另外，x是从0到环的入口点距离，a是当前距离环入口的距离，则s=x+a;
+      保留这个位置，令开一个数从0开始，走到第x步，到环的入口点，环内那个点也走了x步，现在位置为x+a=s=n*c，即在环的入口处，相遇
+      所以相遇点即入口点，即重复的数
+      
+class Solution {
+    public int findDuplicate(int[] nums) {
+    	int slow = nums[0];
+    	int fast = nums[nums[0]];
+    	while(slow != fast) {
+    		slow = nums[slow];
+    		fast = nums[nums[fast]];
+    	}
+    	fast=0;
+    	while(slow != fast) {
+    		slow = nums[slow];
+    		fast = nums[fast];
+    	}
+    	return slow;
+    }
+}
