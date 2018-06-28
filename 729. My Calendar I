@@ -26,3 +26,24 @@ class MyCalendar {
 		return true;
     }
 }
+
+
+2 看discuss才知道有treemap这个东西，插入的时候排好序，时间logN
+
+class MyCalendar {
+	private TreeMap<Integer, Integer> calendar;
+    public MyCalendar() {
+        calendar = new TreeMap<Integer,Integer>();
+    }
+    
+    public boolean book(int start, int end) {
+        Integer floor = calendar.floorKey(start);
+        if(floor != null && calendar.get(floor) > start)
+        	return false;
+        Integer ceiling = calendar.ceilingKey(start);
+        if(ceiling != null && ceiling < end)
+        	return false;
+        calendar.put(start, end);
+        return true;
+    }
+}
