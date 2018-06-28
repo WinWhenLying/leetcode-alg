@@ -1,0 +1,52 @@
+
+1 还以为我很聪明，发现我是脑残
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int count = 0;
+        for(int i=0;i<nums.length-2;i++){
+            for(int j=i+1;j<nums.length-1;j++){
+                int rightMax = search(nums[i]+nums[j],nums,j,nums.length-1);
+                if(rightMax == nums.length){
+                    while(j<nums.length-1){
+                        count += nums.length-j;
+                        j++;
+                    }
+                    break;
+                }
+                count += rightMax-j;
+            }
+        }
+        return count;
+    }
+    private int search(int target, int[] nums, int left,int right){
+        while(left < right){
+            int mid = (left+right)/2+1;
+            if(nums[mid] < target)
+                left = mid;
+            else
+                right = mid-1;
+        }
+        return right;
+    }
+}
+
+2 from other
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int count = 0;
+        for(int i=2;i<nums.length;i++){
+            int l=0,r=i-1;
+            while (l<r){
+                if(nums[l]+nums[r] > nums[i]){
+                    count += r-l;
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+        return count;
+    }
+}
