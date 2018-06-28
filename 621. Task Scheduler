@@ -1,0 +1,16 @@
+1 12ms 72.91% 时间O(N）空间O(1)
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for(char c:tasks) {
+        	count[c-'A']++;
+        }
+        Arrays.sort(count);
+        int ans = (count[25]-1)*(n+1)+1;
+        for(int i=24;count[i]==count[25];i--) {
+        	ans++;
+        }
+        return Math.max(ans, tasks.length);
+    }
+}
