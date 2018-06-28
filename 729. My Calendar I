@@ -1,0 +1,28 @@
+
+1 果然超级无敌慢！
+class MyCalendar {
+	private List<Integer> s;
+	private List<Integer> e;
+	private int size;
+
+    public MyCalendar() {
+        s = new ArrayList<Integer>();
+        e = new ArrayList<Integer>();
+        size = 0;
+    }
+    
+    public boolean book(int start, int end) {
+        for(int i=0;i<size;i++) {
+        	if(start >= s.get(i) && start < e.get(i)) 
+        		return false;
+        	else if(end > s.get(i) && end <= e.get(i))
+        		return false;
+        	else if(start < s.get(i) && end > e.get(i))
+        		return false;
+        }
+        s.add(start);
+		e.add(end);
+		size++;
+		return true;
+    }
+}
