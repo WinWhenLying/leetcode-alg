@@ -1,0 +1,39 @@
+1 2ms 100%  时间0(n)（这个n是矩阵内元素总数），空间O(1)
+感觉我的代码很漂亮，super整齐
+
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] ans = new int[n][n];
+        int count = 1, circle = 0;
+        while (circle < n/2) {
+            count = right(ans, n - circle, circle, circle, count);
+            count = down(ans, n - circle, circle + 1, n - circle - 1, count);
+            count = left(ans, circle, n - circle - 1, n - circle - 2, count);
+            count = up(ans, circle, n - circle - 1, circle, count);
+            circle++;
+        }
+        if(n%2 != 0) 
+            ans[n / 2][n / 2] = count;
+        return ans;
+    }
+    private int right(int[][] ans, int right, int row,int col,int count) {
+        for (; col < right; col++, count++)
+            ans[row][col] = count;
+        return count;
+    }
+    private int down(int[][] ans, int bottom,int row,int col,int count) {
+        for (; row < bottom; row++, count++)
+            ans[row][col] = count;
+        return count;
+    }
+    private int left(int[][] ans, int left,int row,int col,int count) {
+        for (; col > left; col--, count++)
+            ans[row][col] = count;
+        return count;
+    }
+    private int up(int[][] ans, int top,int row,int col,int count) {
+        for (; row > top; row--, count++)
+            ans[row][col] = count;
+        return count;
+    }
+}
