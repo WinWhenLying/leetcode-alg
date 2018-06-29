@@ -50,3 +50,31 @@ class Solution {
         return count;
     }
 }
+
+3 在2的基础上用二分法查找，但是更慢了，讲道理时间复杂度是降低了的
+
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int count = 0;
+        for(int i=2;i<nums.length;i++){
+            int l=0,r=i-1;
+            while (l<r){
+                l = search(nums[i]-nums[r],nums,l,r);
+                count += r-l;
+                r--;
+            }
+        }
+        return count;
+    }
+    private int search(int target,int[] nums,int left,int right) {
+    	while(left<right) {
+    		int mid = (left+right)/2;
+    		if(nums[mid] <= target)
+    			left = mid+1;
+    		else 
+    			right = mid;
+    	}
+    	return left;
+    }
+}
