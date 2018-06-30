@@ -1,0 +1,44 @@
+开始尝试了一下暴力求解，不忍直视
+
+from discuss
+
+时间O(m*n) 空间O(m*n)
+
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        int max = 0;
+        int[][] dp = new int[A.length+1][B.length+1];
+        // 第一行第一列全为0，A[i]==B[j]对应的是dp[i+1][j+1]
+        for(int i=0;i<A.length;i++){
+            for(int j=0;j<B.length;j++){
+                if(A[i] == B[j])
+                    dp[i+1][j+1] = dp[i][j]+1;
+                max = Math.max(max,dp[i+1][j+1]);
+            }
+        }
+        return max;
+    }
+}
+
+from other  32ms 99.25%
+时间O(m*n),空间O（n）
+
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        int[] maxLen = new int[B.length+1];
+        int ans = 0;
+        for(int i=0;i<A.length;i++){
+            for(int j=B.length;j>0;j--){
+                if(A[i] == B[j-1]){
+                    // 相等，那么最大重复子串等于B的前一个数的最大重复子串加1
+                    maxLen[j] = maxLen[j-1]+1;
+                    ans = Math.max(maxLen[j],ans);
+                } else {
+                    // 不相等，归0，最大的即使出现了也在ans里面
+                    maxLen[j] = 0;
+                }
+            }
+        }
+        return ans;
+    }
+}
