@@ -1,0 +1,46 @@
+1 24ms 12.4% 时间O（N） 空间O(1)
+逻辑比较繁杂,果然比较慢。
+/*
+    left是记录子串里在L,R之间的数，left(0)是该子串第一个数（小于L即可）
+    下标加减1比较烦
+ */
+class Solution {
+    public int numSubarrayBoundedMax(int[] A, int L, int R) {
+        ArrayList<Integer> left = new ArrayList<>();
+        int ans = 0;
+        boolean mid = false;
+        for (int i = 0; i < A.length; i++) {
+            if(mid){
+                if(A[i] > R){
+                    for(int j=1;j<left.size();j++) {
+                        ans += (i - left.get(j)) * (left.get(j) - left.get(j - 1));
+                    }
+                    left.clear();
+                    mid = false;
+                } else if(A[i] >= L) {
+                    left.add(i);
+                }
+            } else {
+                if(A[i] > R)
+                    left.clear();
+                else {
+                    if(left.size() == 0) {
+                        left.add(i-1);
+                    }
+                    if(A[i] >= L) {
+                        left.add(i);
+                        mid = true;
+                    }
+                }
+            }
+        }
+        if(mid) {
+            for (int j = 1; j < left.size(); j++)
+                ans += (A.length - left.get(j)) * (left.get(j) - left.get(j - 1));
+        }
+        return ans;
+    }
+}
+
+2 from other
+思路和我是反着的
