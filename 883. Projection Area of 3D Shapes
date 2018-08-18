@@ -1,0 +1,29 @@
+一次遍历，
+94%
+
+class Solution {
+    public int projectionArea(int[][] grid) {
+        int xycount = 0;
+        int[] xzMax = new int[grid.length];
+        int[] yzMax = new int[grid[0].length];
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[0].length; col++) {
+                if (grid[row][col] == 0)
+                    continue;
+                else {
+                    xycount++;
+                    if (grid[row][col] > xzMax[row])
+                        xzMax[row] = grid[row][col];
+                    if (grid[row][col] > yzMax[col])
+                        yzMax[col] = grid[row][col];
+                }
+            }
+        }
+        int sum = xycount;
+        for (int i : xzMax)
+            sum += i;
+        for (int i : yzMax)
+            sum += i;
+        return sum;
+    }
+}
