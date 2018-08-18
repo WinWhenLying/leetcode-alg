@@ -1,0 +1,29 @@
+这题真的蠢
+99%
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+}
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        int size = 1;
+        ListNode temp = head;
+        while (temp.next != null) {
+            size++;
+            temp = temp.next;
+        }
+        int mid = size / 2;
+        temp = head;
+        while (mid > 0) {
+            temp = temp.next;
+            mid--;
+        }
+        return temp;
+    }
+}
