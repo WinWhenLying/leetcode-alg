@@ -1,0 +1,26 @@
+99%
+
+class Solution {
+    public String[] uncommonFromSentences(String A, String B) {
+        HashMap<String, Integer> mp = new HashMap<>();
+        summary(mp, A.split(" "));
+        summary(mp, B.split(" "));
+        ArrayList<String> arr = new ArrayList<>();
+        for (String key : mp.keySet()) {
+            if (mp.get(key) == 1)
+                arr.add(key);
+        }
+        String[] ans = new String[arr.size()];
+        return arr.toArray(ans);
+    }
+
+    private void summary(HashMap<String, Integer> mp, String[] s) {
+        for (String str : s) {
+            if (mp.containsKey(str))
+                // 2就可以保证不管它了
+                mp.put(str, 2);
+            else
+                mp.put(str, 1);
+        }
+    }
+}
