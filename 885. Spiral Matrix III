@@ -1,0 +1,33 @@
+思路是看discuss里的
+
+序列是1，1,2,2,3,3,，，，（step，走多少步转向）
+转向，本来是(x,y),变成(-y,x),   x向右为正方向，y向下为正方向，row+=y, col+=x,
+
+97%
+class Solution {
+     public int[][] spiralMatrixIII(int R, int C, int r0, int c0) {
+        int[][] path = new int[R * C][2];
+        path[0] = new int[]{r0, c0};
+        int x = 1, y = 0;    // direction
+        int count = 1, circle = 0, step = 0;
+        int num = R * C;
+        while (count < num) {
+            r0 += y;
+            c0 += x;
+            step++;
+            if (r0 >= 0 && r0 < R && c0 >= 0 && c0 < C) {
+                path[count] = new int[]{r0, c0};
+                count++;
+            }
+            // turn right
+            if (step == (circle / 2 + 1)) {
+                circle++;
+                step = 0;
+                int temp = x;
+                x = -y;
+                y = temp;
+            }
+        }
+        return path;
+    }
+}
