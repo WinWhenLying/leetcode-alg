@@ -1,0 +1,30 @@
+好像没有办法动态比较，得全部算出来再比较
+
+100%， 2ms
+
+class Solution {
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        leafOrder(arr1, root1);
+        leafOrder(arr2, root2);
+        if (arr1.size() != arr2.size())
+            return false;
+        for (int i = 0; i < arr1.size(); i++)
+            if (arr1.get(i) != arr2.get(i))
+                return false;
+
+        return true;
+    }
+
+    private void leafOrder(ArrayList<Integer> arr, TreeNode node) {
+        if (node == null)
+            return;
+        if (node.left == null && node.right == null) {
+            arr.add(node.val);
+            return;
+        }
+        leafOrder(arr, node.left);
+        leafOrder(arr, node.right);
+    }
+}
