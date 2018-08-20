@@ -1,0 +1,47 @@
+直接两次遍历果然比较慢
+7ms, 29,53%
+
+class Solution {
+    public int[] shortestToChar(String S, char C) {
+        int num = S.length();
+        int[] shortest = new int[num];
+        int indexOfC = -num;
+        for (int i = 0; i < num; i++) {
+            if (S.charAt(i) == C)
+                indexOfC = i;
+            shortest[i] = i - indexOfC;
+        }
+        for (int i = indexOfC-1; i >= 0; i--) {
+            if (S.charAt(i) == C)
+                indexOfC = i;
+            if (indexOfC - i < shortest[i])
+                shortest[i] = indexOfC - i;
+        }
+        return shortest;
+    }
+}
+
+优化了一下，一次遍历+一点内部两个C之间半遍历
+5ms
+class Solution {
+    public int[] shortestToChar(String S, char C) {
+        int num = S.length();
+        int[] shortest = new int[num];
+        int lastIndexOfC;
+        int nowIndexOfC = -num;
+        for (int i = 0; i < num; i++) {
+            if (S.charAt(i) == C) {
+                lastIndexOfC = nowIndexOfC;
+                nowIndexOfC = i;
+                for (int j = nowIndexOfC - 1; j > lastIndexOfC && j >= 0; j--) {
+                    if (nowIndexOfC - j < shortest[j])
+                        shortest[j] = nowIndexOfC - j;
+                    else
+                        break;
+                }
+            }
+            shortest[i] = i - nowIndexOfC;
+        }
+        return shortest;
+    }
+}
