@@ -1,0 +1,20 @@
+直接求
+11ms, 55%  快的答案感觉是一样的
+class Solution {
+    public int binaryGap(int N) {
+        int ans = 0;
+        int last1 = 100;
+        int i = 0;
+        while (N > 0) {
+            int temp = N % 2;
+            if (temp == 1) {
+                if (i - last1 > ans)
+                    ans = i - last1;
+                last1 = i;
+            }
+            N /= 2;
+            i++;
+        }
+        return ans;
+    }
+}
