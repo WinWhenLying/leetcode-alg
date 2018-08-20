@@ -1,0 +1,21 @@
+就是一个搜索，这里用的深度优先
+最快的答案和我的是一样的
+6ms 66%
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] room = new boolean[rooms.size()];
+        visit(room, rooms, 0);
+        for (boolean b : room)
+            if (!b)
+                return false;
+        return true;
+    }
+
+    private void visit(boolean[] room, List<List<Integer>> rooms, int i) {
+        if (room[i])
+            return;
+        room[i] = true;
+        for (int r : rooms.get(i))
+            visit(room, rooms, r);
+    }
+}
