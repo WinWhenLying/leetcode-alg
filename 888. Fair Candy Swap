@@ -1,0 +1,39 @@
+A,B求和，差为differce，对于B[i]，在A中能找到B[i]+differce/2的值即可，这一对即为答案
+排序A为了二分查找
+新题，21ms
+
+class Solution {
+    public int[] fairCandySwap(int[] A, int[] B) {
+        int sumA = sum(A);
+        int sumB = sum(B);
+        Arrays.sort(A);
+        int difference = (sumA - sumB) / 2;
+        int[] ans = new int[2];
+        for (int i : B) {
+            if (binarySearch(i + difference, 0, A.length - 1, A)) {
+                ans[1] = i;
+                ans[0] = i + difference;
+                break;
+            }
+        }
+        return ans;
+    }
+
+    private int sum(int[] arr) {
+        int sum = 0;
+        for (int i : arr)
+            sum += i;
+        return sum;
+    }
+
+    private boolean binarySearch(int goal, int left, int right, int[] arr) {
+        int mid = (left + right) / 2;
+        while (left < right) {
+            if (arr[mid] == goal) return true;
+            else if (arr[mid] < goal) left = mid + 1;
+            else right = mid - 1;
+            mid = (left + right) / 2;
+        }
+        return arr[mid] == goal;
+    }
+}
