@@ -45,3 +45,36 @@ class Solution {
         return shortest;
     }
 }
+
+看讨论区的，他说beat了100%，并没有
+两次遍历，但是减少了很多比较次数
+class Solution {
+    public int[] shortestToChar(String S, char C) {
+        char[] ch = S.toCharArray();
+        int[] shortest = new int[ch.length];
+        int count = ch.length;
+        for (int i = 0; i < ch.length; i++) {
+            if (ch[i] == C) {
+                shortest[i] = 0;
+                count = 1;
+            } else {
+                shortest[i] = count;
+                count++;
+            }
+        }
+        for (int i = ch.length - 1; i >= 0; i--) {
+            if (ch[i] == C)
+                count = 1;
+            else if (shortest[i] > count) {
+                shortest[i] = count;
+                count++;
+            }
+        }
+        return shortest;
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int[] arr = s.shortestToChar("loveleetcode",'e');
+    }
+}
