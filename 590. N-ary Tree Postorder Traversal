@@ -1,0 +1,21 @@
+递归实现，非递归得用队列，应该会非常慢
+5ms 50%
+class Solution {
+    public List<Integer> postorder(Node root) {
+        List<Integer> ls = new ArrayList<>();
+        postorder(root, ls);
+        return ls;
+    }
+
+    private void postorder(Node root, List<Integer> ls) {
+        if (root == null)
+            return;
+        if (root.children.isEmpty()) {
+            ls.add(root.val);
+            return;
+        }
+        for (Node node : root.children)
+            postorder(node, ls);
+        ls.add(root.val);
+    }
+}
