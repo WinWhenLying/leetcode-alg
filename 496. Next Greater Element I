@@ -6,6 +6,7 @@
     保证栈中的值都是i可能的下一个最大值
 2. 值-下一个最大值构建一个map，遍历nums1直接访问这个map就得到答案了
 
+6
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         HashMap<Integer, Integer> mp = new HashMap<>(nums2.length);
