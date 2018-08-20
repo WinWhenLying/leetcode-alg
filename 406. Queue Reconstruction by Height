@@ -1,0 +1,50 @@
+看讨论区的
+先排序（Arrays.sort）,高度最高的在前，相同高度前面人少的在前
+然后从前往后遍历，如果i的前面人数小于i的位置，那么i前移；其实是插入排序，
+从前往后，每个人按自己前面人数插到自己的位置。因为第一次排序后，保证前面的人身高都是大于等于后面的人
+16ms 54%   
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] == o2[0])
+                    return o1[1]-o2[1];
+                return o2[0]-o1[0];
+            }
+        });
+        for(int i=0;i<people.length;i++){
+            int temp = i;
+            while (people[temp][1] < temp){
+                exch(people,temp,temp-1);
+                temp--;
+            }
+        }
+        return people;
+    }
+    private void exch(int[][] people,int a,int b){
+        int[] temp = people[a];
+        people[a] = people[b];
+        people[b] = temp;
+    }
+}
+
+插入操作，讲道理应该用链表会更快一点，所以试试LinkedList
+12
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] == o2[0])
+                    return o1[1]-o2[1];
+                return o2[0]-o1[0];
+            }
+        });
+        LinkedList<int[]> arr = new LinkedList<>();
+        for(int i=0;i<people.length;i++){
+            arr.add(people[i][1],people[i]);
+        }
+        return arr.toArray(people);
+    }
+}
