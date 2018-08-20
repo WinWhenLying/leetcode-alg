@@ -1,0 +1,21 @@
+广度优先搜索, 感觉不用递归更方便一点
+5ms 70%
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        ArrayList<TreeNode> last = new ArrayList<>();
+        last.add(root);
+        TreeNode ans = root;
+        while (!last.isEmpty()) {
+            ArrayList<TreeNode> next = new ArrayList<>();
+            ans = last.get(0);
+            for (TreeNode node : last) {
+                if (node.left != null)
+                    next.add(node.left);
+                if (node.right != null)
+                    next.add(node.right);
+            }
+            last = next;
+        }
+        return ans.val;
+    }
+}
