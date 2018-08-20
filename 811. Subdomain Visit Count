@@ -1,0 +1,78 @@
+直接算
+33ms 30%
+应该是因为用了split比较慢，最快的是用indexOf(".")
+
+class Solution {
+    public List<String> subdomainVisits(String[] cpdomains) {
+        HashMap<String, Integer> mp = new HashMap<>();
+        for (String str : cpdomains) {
+            String[] s = str.split(" ");
+            splitStringPush(mp, Integer.parseInt(s[0]), s[1]);
+        }
+        ArrayList<String> arr = new ArrayList<>();
+        for (String domain : mp.keySet()) {
+            arr.add(mp.get(domain) + " " + domain);
+        }
+        return arr;
+    }
+
+    private void splitStringPush(HashMap<String, Integer> mp, int num, String str) {
+        pushMap(mp, num, str);
+        String[] s = str.split("\\.");
+        if (s.length == 3) {
+            pushMap(mp, num, s[1] + "." + s[2]);
+            pushMap(mp, num, s[2]);
+        } else {
+            pushMap(mp, num, s[1]);
+        }
+    }
+
+    private void pushMap(HashMap<String, Integer> mp, int num, String str) {
+        if (mp.containsKey(str)) {
+            mp.put(str, mp.get(str) + num);
+        } else {
+            mp.put(str, num);
+        }
+    }
+}
+
+不用split，用substring, indexOf()快多了
+14ms, 95.11%
+class Solution {
+    public List<String> subdomainVisits(String[] cpdomains) {
+        HashMap<String, Integer> mp = new HashMap<>();
+        for (String str : cpdomains) {
+            int index = str.indexOf(' ');
+            splitStringPush(mp, Integer.parseInt(str.substring(0, index)), str.substring(index + 1, str.length()));
+        }
+        ArrayList<String> arr = new ArrayList<>();
+        for (String domain : mp.keySet()) {
+            arr.add(mp.get(domain) + " " + domain);
+        }
+        return arr;
+    }
+
+    private void splitStringPush(HashMap<String, Integer> mp, int num, String str) {
+        pushMap(mp, num, str);
+        int index1 = str.indexOf('.');
+        int index2 = str.indexOf('.', index1 + 1);
+        System.out.println(index1 + "  " + index2);
+        pushMap(mp, num, str.substring(index1 + 1, str.length()));
+        if (index2 > 0)
+            pushMap(mp, num, str.substring(index2 + 1, str.length()));
+    }
+
+    private void pushMap(HashMap<String, Integer> mp, int num, String str) {
+        if (mp.containsKey(str)) {
+            mp.put(str, mp.get(str) + num);
+        } else {
+            mp.put(str, num);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        String[] str = {"9001 discuss.leetcode.com"};
+        List<String> arr = s.subdomainVisits(str);
+    }
+}
