@@ -1,0 +1,16 @@
+跟100%的一样的思路，代码几乎一样，但就是慢一点
+92%
+
+class Solution {
+    public int maxDepth(Node root) {
+        if (root == null) return 0;
+        if (root.children.isEmpty()) return 1;
+        int max = 1;
+        for (Node node : root.children) {
+            int depth = 1 + maxDepth(node);
+            if (depth > max)
+                max = depth;
+        }
+        return max;
+    }
+}
