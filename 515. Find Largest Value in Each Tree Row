@@ -1,0 +1,24 @@
+广度优先搜索
+还是用ArrayList快一点
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if (root == null)
+            return ans;
+        List<TreeNode> last = new ArrayList<>();
+        last.add(root);
+        while (!last.isEmpty()) {
+            List<TreeNode> next = new ArrayList<>();
+            int max = Integer.MIN_VALUE;
+            for (TreeNode node : last) {
+                if (node.val > max)
+                    max = node.val;
+                if (node.left != null) next.add(node.left);
+                if (node.right != null) next.add(node.right);
+            }
+            ans.add(max);
+            last = next;
+        }
+        return ans;
+    }
+}
