@@ -1,0 +1,22 @@
+广度优先搜索
+6ms 84%
+// 开始把sum弄成int，会越界，弄成long，再强制类型转换很慢
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        ArrayList<Double> average = new ArrayList<>();
+        ArrayList<TreeNode> arr = new ArrayList<>();
+        arr.add(root);
+        while (!arr.isEmpty()) {
+            ArrayList<TreeNode> next = new ArrayList<>();
+            double sum = 0;
+            for (TreeNode node : arr) {
+                sum += node.val;
+                if (node.left != null) next.add(node.left);
+                if (node.right != null) next.add(node.right);
+            }
+            average.add(sum / arr.size());
+            arr = next;
+        }
+        return average;
+    }
+}
