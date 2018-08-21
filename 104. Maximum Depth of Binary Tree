@@ -1,0 +1,13 @@
+ 很简单的一个递归
+ 100%
+ 
+ class Solution {
+     public int maxDepth(TreeNode root) {
+         return depth(root, 0);
+     }
+
+     private int depth(TreeNode root, int d) {
+         if (root == null) return d;
+         return Math.max(depth(root.left, d + 1), depth(root.right, d + 1));
+     }
+ }
