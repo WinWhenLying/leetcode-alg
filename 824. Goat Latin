@@ -1,0 +1,29 @@
+按逻辑写就完事了
+6ms 97%, 不敢相信
+
+class Solution {
+    public String toGoatLatin(String S) {
+        String[] str = S.split(" ");
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < str.length; i++) {
+            if (vowel(str[i].charAt(0))) {
+                ans.append(str[i]);
+            } else {
+                ans.append(str[i].substring(1, str[i].length()));
+                ans.append(str[i].charAt(0));
+            }
+            ans.append("ma");
+            for (int j = 0; j <= i; j++)
+                ans.append('a');
+            ans.append(' ');
+        }
+        return ans.substring(0, ans.length() - 1);
+    }
+
+    private boolean vowel(char c) {
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
+                || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
+            return true;
+        return false;
+    }
+}
