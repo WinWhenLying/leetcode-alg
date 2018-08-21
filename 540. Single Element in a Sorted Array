@@ -1,0 +1,23 @@
+二分法，如果mid为奇数，那么mid-1一定不越界，如果nums[mid]==nums[mid-1]，那么那个单独的数在右边
+反之同样推导
+0ms 100%
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int left = 0, right = nums.length-1;
+        while (left<right){
+            int mid = (left+right)/2;
+            if((mid&1)==1){
+                if(nums[mid] == nums[mid-1])
+                    left = mid+1;
+                else
+                    right = mid;
+            } else {
+                if(nums[mid] == nums[mid+1])
+                    left = mid+1;
+                else
+                    right = mid;
+            }
+        }
+        return nums[left];
+    }
+}
