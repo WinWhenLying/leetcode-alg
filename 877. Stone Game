@@ -1,0 +1,7 @@
+这题真的是要笑死我
+显然为true...
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        return true;
+    }
+}
