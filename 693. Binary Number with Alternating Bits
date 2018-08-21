@@ -1,0 +1,33 @@
+果然取模运算太慢了
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        int i = 1 - n % 2;
+        n /= 2;
+        while (n != 0) {
+            int j = n % 2;
+            if (i != j)
+                return false;
+            i = 1 - i;
+            n /= 2;
+        }
+        return true;
+    }
+}
+
+用位操作快多了
+8ms 83%
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        int i = 1 - n & 1;
+        n >>= 1;
+        while (n != 0) {
+            int j = n & 1;
+            if (i != j)
+                return false;
+            i = 1 - i;
+            n>>=1;
+        }
+        return true;
+    }
+
+}
