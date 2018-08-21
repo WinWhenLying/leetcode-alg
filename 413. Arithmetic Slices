@@ -1,0 +1,41 @@
+2ms 18%
+class Solution {
+    public int numberOfArithmeticSlices(int[] A) {
+        int count = 0;
+        for (int i = 0; i < A.length - 1; ) {
+            int difference = A[i + 1] - A[i];
+            int j = i + 1;
+            while (j < A.length - 1 && A[j + 1] - A[j] == difference)
+                j++;
+            count += sequenceContain(j - i + 1);
+            i = j;
+        }
+        return count;
+    }
+
+    // calculate the number of subsequence contained by the sequence of length n
+    // subsequence length>=3
+    private int sequenceContain(int n) {
+        if (n < 3)
+            return 0;
+        return (n - 1) * (n - 2) / 2;
+    }
+}
+
+100%的答案是这个（别人的），我提交也是18%
+这个应该比我的快，我的多了很多判断
+class Solution {
+    public int numberOfArithmeticSlices(int[] A) {
+        if (A.length < 3) return 0;
+        int dp = 0;
+        int count = 0;
+        for (int i = 2; i < A.length; i++) {
+            if (A[i] - A[i - 1] == A[i - 1] - A[i - 2])
+                dp += 1;
+            else
+                dp = 0;
+            count += dp;
+        }
+        return count;
+    }
+}
