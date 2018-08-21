@@ -1,0 +1,12 @@
+一个很无聊的递归
+0ms 100%
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null)
+            return null;
+        TreeNode temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+        return root;
+    }
+}
