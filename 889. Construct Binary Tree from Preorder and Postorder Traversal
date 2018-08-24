@@ -1,0 +1,33 @@
+看讨论区的，利用stack
+前序遍历中-左-右，后序遍历左-右-中
+前序遍历第一个一定为根节点，
+看讨论区然后自己画吧
+遍历pre[]，只有在post[]里面访问的值等于当前值，说明pre[i]左子树访问完了
+post[j]的子节点都在j的左边，pre[i]的子节点都在i的右边，pre[i]==post[j]说明pre[i]的左节点构造好了（默认为null）
+利用stack, 栈顶那个数等于post[j]说明它的左右节点都构造好了，下一个pre[i]永远都是栈顶那个数的子节点（先左再右）
+还是得自己画图看
+class Solution {
+    public TreeNode constructFromPrePost(int[] pre, int[] post) {
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode root = new TreeNode(pre[0]);
+        st.push(root);
+        for (int i = 1, j = 0; i < pre.length; i++) {
+            TreeNode node = new TreeNode(pre[i]);
+            while (st.peek().val == post[j]) {
+                st.pop();
+                j++;
+            }
+            if (st.peek().left == null) st.peek().left = node;
+            else st.peek().right = node;
+            st.push(node);
+        }
+        return root;
+    }
+
+    public static void main(String[] args) {
+        int[] pre = {1,2,4,5,3,6,7};
+        int[] post = {4,5,2,6,7,3,1};
+        Solution s = new Solution();
+        TreeNode root = s.constructFromPrePost(pre,post);
+    }
+}
