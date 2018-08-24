@@ -1,0 +1,77 @@
+递归，相当于dfs
+10ms 49.98%
+class Solution {
+    public List<String> letterCasePermutation(String S) {
+        List<String> ls = new ArrayList<>();
+        char[] ch = S.toCharArray();
+        add(new StringBuilder(), ch, 0, ls);
+        return ls;
+    }
+
+    private void add(StringBuilder str, char[] ch, int index, List<String> ls) {
+        if (index == ch.length) {
+            ls.add(str.toString());
+            return;
+        }
+        if (digit(ch[index]))
+            add(new StringBuilder(str.append(ch[index])), ch, index + 1, ls);
+        else {
+            add(new StringBuilder(str.append(ch[index])), ch, index + 1, ls);
+            str.deleteCharAt(str.length() - 1);
+            add(new StringBuilder(str.append(transfer(ch[index]))), ch, index + 1, ls);
+        }
+    }
+
+    private boolean digit(char c) {
+        if (c >= '0' && c <= '9')
+            return true;
+        return false;
+    }
+
+    private char transfer(char c) {
+        if (c >= 'a' && c <= 'z')
+            return (char) (c - 'a' + 'A');
+        else
+            return (char) (c - 'A' + 'a');
+    }
+
+}
+
+答案里面比我快的思路一样，但是没有用到StringBuilder,直径用char[]，更快
+按别人的方法改写代码
+6ms 94%
+class Solution {
+    public List<String> letterCasePermutation(String S) {
+        List<String> ls = new ArrayList<>();
+        char[] ch = S.toCharArray();
+        add(ch, 0, ls);
+        return ls;
+    }
+
+    private void add(char[] ch, int index, List<String> ls) {
+        if (index == ch.length) {
+            ls.add(String.valueOf(ch));
+            return;
+        }
+        if (digit(ch[index]))
+            add(ch, index + 1, ls);
+        else {
+            add(ch, index + 1, ls);
+            ch[index] = transfer(ch[index]);
+            add(ch, index + 1, ls);
+        }
+    }
+
+    private boolean digit(char c) {
+        if (c >= '0' && c <= '9')
+            return true;
+        return false;
+    }
+
+    private char transfer(char c) {
+        if (c >= 'a' && c <= 'z')
+            return (char) (c - 'a' + 'A');
+        else
+            return (char) (c - 'A' + 'a');
+    }
+}
