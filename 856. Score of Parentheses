@@ -1,0 +1,31 @@
+感觉自己贼机智
+用一个stack,O(N)
+5ms, 59%
+class Solution {
+    public int scoreOfParentheses(String S) {
+        Stack<Integer> st = new Stack<>();
+        char[] ch = S.toCharArray();
+        for (char c : ch) {
+            if (c == '(')
+                st.push(0);
+            else {
+                if (st.peek() == 0) {
+                    st.pop();
+                    st.push(1);
+                } else {
+                    int count = 0;
+                    while (st.peek() != 0) {
+                        count += st.pop();
+                    }
+                    st.pop();
+                    st.push(2 * count);
+                }
+            }
+        }
+        int ans = 0;
+        while (!st.isEmpty()) {
+            ans += st.pop();
+        }
+        return ans;
+    }
+}
