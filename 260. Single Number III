@@ -1,0 +1,25 @@
+完全没思路，看讨论区的
+令两个不同数为a,b
+1. diff=0, 遍历数组，diff ^= num, diff变成两个不同数的异或值（相同值的异或为0）
+2. diff &= -diff， -diff的二进制是取diff的补码在加1，所以diff &= -diff 得到diff最低位为1的那个二进制数；
+   就是把diff除了本来的最后一位1保留为1，其他位设为0；由于diff是从a^b得到的，所以a,b该位一定是一个为1，一个为0
+   所以a&diff=0, b&diff=diff不为0
+3. 遍历数组，用diff将数组分成两类   num&diff==0, num&diff!=0; a,b分别在两类中
+   然后ans[0]^=num, ans[1]^=num (ans[0], ans[1]分别对应两类的num),相同数的异或为0，所以ans[0], ans[1]最后是a, b
+   
+ class Solution {
+    public int[] singleNumber(int[] nums) {
+        int diff = 0;
+        for (int num : nums)
+            diff ^= num;
+        diff &= -diff;
+        int[] ans = {0, 0};
+        for (int num : nums) {
+            if ((num & diff) == 0)
+                ans[0] ^= num;
+            else
+                ans[1] ^= num;
+        }
+        return ans;
+    }
+}
