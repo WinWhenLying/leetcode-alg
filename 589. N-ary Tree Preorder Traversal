@@ -1,0 +1,16 @@
+前序遍历
+class Solution {
+    public List<Integer> preorder(Node root) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        pre(root, arr);
+        return arr;
+    }
+
+    private void pre(Node root, List<Integer> arr) {
+        if (root == null)
+            return;
+        arr.add(root.val);
+        for (Node node : root.children)
+            pre(node, arr);
+    }
+}
