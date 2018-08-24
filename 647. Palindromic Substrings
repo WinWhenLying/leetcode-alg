@@ -1,0 +1,46 @@
+一开始只能想到暴力求解，慢的不忍直视
+class Solution {
+    public int countSubstrings(String s) {
+        int count = s.length();
+        for (int i = 0; i < s.length() - 1; i++) {
+            for (int j = i + 2; j <= s.length(); j++) {
+                if (palindromic(s.substring(i, j)))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean palindromic(String s) {
+        int n = s.length() / 2;
+        for (int i = 0; i < n; i++)
+            if (s.charAt(i) != s.charAt(s.length() - i - 1))
+                return false;
+        return true;
+    }
+}
+
+答案中最快的那个
+// cal是计算以(left+right)/2为中心的s的子串为回文串的个数
+// 因为发现不对称可以立刻停止去下一个i，所以快很多
+// cal(s,i,i)与cal(s,i,i+1) 是两个对称中心
+class Solution {
+    public int countSubstrings(String s) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            count += cal(s, i, i);
+            count += cal(s, i, i + 1);
+        }
+        return count;
+    }
+
+    private int cal(String s, int left, int right) {
+        int num = 0;
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            num++;
+            left--;
+            right++;
+        }
+        return num;
+    }
+}
