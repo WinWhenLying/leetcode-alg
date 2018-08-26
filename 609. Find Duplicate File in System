@@ -1,0 +1,38 @@
+就是直接求解，我还以为特别慢，结果99%
+30ms 99%
+
+class Solution {
+    public List<List<String>> findDuplicate(String[] paths) {
+        HashMap<String, List<String>> mp = new HashMap<>();
+        for (String str : paths) {
+            String[] s = str.split(" ");
+            for (int i = 1; i < s.length; i++) {
+                int index = s[i].indexOf('(');
+                helper(mp, s[0], s[i].substring(0, index), s[i].substring(index + 1, s[i].length() - 1));
+            }
+        }
+        List<List<String>> ls = new ArrayList<>();
+        for (List<String> l : mp.values()) {
+            if (l.size() > 1)
+                ls.add(l);
+        }
+        return ls;
+    }
+
+    private void helper(HashMap<String, List<String>> mp, String path, String file, String content) {
+        String directory = path + '/' + file;
+        if (mp.containsKey(content)) {
+            mp.get(content).add(directory);
+        } else {
+            ArrayList<String> arr = new ArrayList<>();
+            arr.add(directory);
+            mp.put(content, arr);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        String[] paths = {"root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)", "root 4.txt(efgh)"};
+        List<List<String>> ls = s.findDuplicate(paths);
+    }
+}
