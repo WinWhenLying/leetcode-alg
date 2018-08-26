@@ -1,0 +1,69 @@
+没思路，看讨论区的
+方法1 
+65
+// count是计数的，pos代表当前值，pos=2表示把2放在某个位置
+// helper 里面的for循环，pos=1（for(i:N)是将pos放在i的位置），就是从1开始放，1放在合适的位置（这个位置标记为1，表示被占了）再放2，再放3一直到N，到N说明找到了一个解，count++
+// 其实used这个数组可以用boolean[]， 应该可以快一点，还省内存
+public class Solution {
+    int count = 0;
+
+    public int countArrangement(int N) {
+        if (N == 0) return 0;
+        helper(N, 1, new int[N + 1]);
+        return count;
+    }
+
+    private void helper(int N, int pos, int[] used) {
+        if (pos > N) {
+            count++;
+            return;
+        }
+
+        for (int i = 1; i <= N; i++) {
+            if (used[i] == 0 && (i % pos == 0 || pos % i == 0)) {
+                used[i] = 1;
+                helper(N, pos + 1, used);
+                used[i] = 0;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int a = s.countArrangement(3);
+    }
+}
+
+2. 自己改动的
+7ms 92%
+// i从N开始到1，因为越大的数，能匹配的位置越少，第一层循环留下的可能性就越少，而从小的数开始，第一层循环留下了很多的可能性，做了更多无意义的dfs
+// 从N到1会少很多的dfs
+public class Solution {
+    int count = 0;
+
+    public int countArrangement(int N) {
+        if (N == 0) return 0;
+        helper(N, N, new boolean[N + 1]);
+        return count;
+    }
+
+    private void helper(int N, int pos, boolean[] used) {
+        if (pos == 0) {
+            count++;
+            return;
+        }
+
+        for (int i = N; i >0; i--) {
+            if (!used[i] && (i % pos == 0 || pos % i == 0)) {
+                used[i] = true;
+                helper(N, pos - 1, used);
+                used[i] = false;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int a = s.countArrangement(3);
+    }
+}
