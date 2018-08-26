@@ -1,0 +1,7 @@
+O(1)的没想出来，看讨论区的
+如果花时间找规律应该也找到了
+class Solution {
+    public int addDigits(int num) {
+        return 1 + (num - 1) % 9;
+    }
+}
