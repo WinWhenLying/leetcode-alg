@@ -1,0 +1,107 @@
+20ms 81%
+我觉得我的算法很蠢
+
+class Solution {
+    public String frequencySort(String s) {
+        HashMap<Character, Integer> mp = new HashMap<>();
+        char[] ch = s.toCharArray();
+        for (char c : ch) {
+            mp.put(c, mp.getOrDefault(c, 0) + 1);
+        }
+        Node[] arr = new Node[mp.size()];
+        int i = 0;
+        for (char c : mp.keySet()) {
+            arr[i] = new Node(c, mp.get(c));
+            i++;
+        }
+        Arrays.sort(arr, new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o2.count - o1.count;
+            }
+        });
+        StringBuilder sb = new StringBuilder();
+        for (Node node : arr) {
+            for (i = 0; i < node.count; i++)
+                sb.append(node.c);
+        }
+        return sb.toString();
+    }
+
+    class Node {
+        char c;
+        int count;
+
+        Node(char _c, int _count) {
+            c = _c;
+            count = _count;
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        String str = s.frequencySort("tree");
+    }
+}
+
+最快的答案，感觉很鸡贼，也很蠢
+class Solution {
+    public String frequencySort(String s) {
+        int[] freq = new int[256];
+        char[] arr = s.toCharArray();
+        for(char c : arr) freq[c]++;
+        
+        int max = 0, i = 0;
+        while(i < arr.length){
+            for(int j=0; j<256; j++) if(freq[j] > freq[max]) max = j;
+            for(int k=0; k<freq[max]; k++) arr[i++] = (char) max;
+            freq[max] = 0;
+        }
+        return new String(arr);
+    }
+}
+
+在最快的基础上改了一点，代码繁琐了很多，却还是没它快（可能排序还没它遍历一遍快）
+11ms 90%
+class Solution {
+    public String frequencySort(String s) {
+        int[] freq = new int[256];
+        char[] arr = s.toCharArray();
+        HashSet<Character> st = new HashSet<>();
+        for(char c : arr) {
+            st.add(c);
+            freq[c]++;
+        }
+        Node[] node = new Node[st.size()];
+        int i=0;
+        for(char c:st){
+            node[i] = new Node(c,freq[c]);
+            i++;
+        }
+        Arrays.sort(node, new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o2.count-o1.count;
+            }
+        });
+        i=0;
+        for (Node n:node){
+            char c = n.c;
+            for(int j=0;j<freq[c];j++){
+                arr[i] = c;
+                i++;
+            }
+        }
+        return new String(arr);
+    }
+
+    class Node {
+        char c;
+        int count;
+
+        Node(char _c, int _count) {
+            c = _c;
+            count = _count;
+        }
+    }
+}
