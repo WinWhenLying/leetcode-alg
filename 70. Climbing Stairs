@@ -1,0 +1,15 @@
+斐波那契数列，简单动态规划
+2ms 100%
+class Solution {
+    public int climbStairs(int n) {
+        int last1 = 1, last2 = 1;
+        int current = 1;
+        while (n > 1) {
+            current = last1 + last2;
+            last2 = last1;
+            last1 = current;
+            n--;
+        }
+        return current;
+    }
+}
