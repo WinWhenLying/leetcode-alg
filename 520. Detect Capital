@@ -1,0 +1,62 @@
+18ms 74%
+完全遍历了，O(N), 应该可以不用完全遍历，中间到某个char发现不对就可以返回false
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        char[] ch = word.toCharArray();
+        int first = capital(ch[0]);
+        int other=0;
+        for(int i=1;i<ch.length;i++)
+            other+=capital(ch[i]);
+        if(first==1){
+            if(other==0 || other==ch.length-1)
+                return true;
+            return false;
+        } else {
+            if(other>0)
+                return false;
+            return true;
+        }
+    }
+    private int capital(char c){
+        if(c>='A' && c<='Z')
+            return 1;
+        else 
+            return 0;
+    }
+}
+
+中间就判断了，但是更慢，应该是因为判断太多了
+24ms 20%
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        if (word.length() < 2)
+            return true;
+        char[] ch = word.toCharArray();
+        if (capital(ch[0])) {
+            boolean second = capital(ch[1]);
+            if (second) {
+                for (int i = 2; i < ch.length; i++)
+                    if (!capital(ch[i]))
+                        return false;
+                return true;
+            } else {
+                for (int i = 2; i < ch.length; i++)
+                    if (capital(ch[i]))
+                        return false;
+                return true;
+            }
+        } else {
+            for (int i = 1; i < ch.length; i++)
+                if (capital(ch[i]))
+                    return false;
+            return true;
+        }
+    }
+
+    private boolean capital(char c) {
+        if (c >= 'A' && c <= 'Z')
+            return true;
+        else
+            return false;
+    }
+}
