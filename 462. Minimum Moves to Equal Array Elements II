@@ -1,0 +1,67 @@
+找中位数，然后求每个数与中位数的差值总和
+用有重复键的快速排序算法找中位数
+很慢，105ms,6.35%
+最快的3ms算法跟我的是一样的啊，只不过它取的切分值是(left+right)/2,为什么速度差这么多
+class Solution {
+    public int minMoves2(int[] nums) {
+        int mid = nums.length / 2;
+        int medium = findMid(nums, 0, nums.length - 1, mid);
+        int move = 0;
+        for (int i = 0; i < mid; i++)
+            move += medium - nums[i];
+        for (int i = mid + 1; i < nums.length; i++)
+            move += nums[i] - medium;
+        return move;
+    }
+
+    private void exch(int[] nums, int i, int j) {
+        if (i == j)
+            return;
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    private int findMid(int[] nums, int left, int right, int mid) {
+        int leftEqual = left, lt = leftEqual + 1, rt = right;
+        int num = nums[left];
+        while (lt <= rt) {
+            if (nums[lt] == num) lt++;
+            else if (nums[lt] > num) {
+                exch(nums, lt, rt);
+                rt--;
+            } else {
+                exch(nums, lt, leftEqual);
+                lt++;
+                leftEqual++;
+            }
+        }
+        if (leftEqual > mid) {
+            return findMid(nums, left, leftEqual - 1, mid);
+        } else if (lt <= mid) {
+            return findMid(nums, lt, right, mid);
+        } else
+            return nums[leftEqual];
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {3, 2, 1};
+        Solution s = new Solution();
+        int move = s.minMoves2(nums);
+    }
+}
+
+别的答案，4ms，
+class Solution {
+    public int minMoves2(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        Arrays.sort(nums);
+        int sum = 0;
+        while (i < j) {
+            sum += nums[j] - nums[i];
+            i++;
+            j--;
+        }
+        return sum;
+    }
+}
