@@ -19,3 +19,21 @@ class Solution {
         return MaxPro;
     }
 }
+
+1ms 99%
+讨论区的，一个什么算法，算是动态规划，O(N)
+相当于求最大连续子串和
+挺漂亮的算法
+class Solution {
+    public int maxProfit(int[] prices) {
+        int maxCur = 0, maxSoFar = 0;
+        for (int i = 1; i < prices.length; i++) {
+            maxCur += prices[i] - prices[i - 1];
+            if (maxCur < 0)
+                maxCur = 0;
+            else if (maxCur > maxSoFar)
+                maxSoFar = maxCur;
+        }
+        return maxSoFar;
+    }
+}
