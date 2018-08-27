@@ -1,0 +1,30 @@
+4ms 38%
+简单的线性规划
+
+class Solution {
+    public int rob(int[] nums) {
+        int last1 = 0, last2 = 0, last3 = 0, current = 0;
+        for (int n : nums) {
+            current = Math.max(last2, last3) + n;
+            last3 = last2;
+            last2 = last1;
+            last1 = current;
+        }
+        return Math.max(last1, last2);
+    }
+}
+
+最快的答案，只用存储两个临时变量（要不要当前值）,不要当前值就肯定要上一个，反之就是不要上一个要上上一个
+3ms 100%
+class Solution {
+    public int rob(int[] nums) {
+       int curno=0;
+        int curyes=0;
+        for(int i=0;i<nums.length;i++){
+            int temp=curno;
+            curno=Math.max(curno,curyes);
+            curyes=temp+nums[i];
+        }
+        return Math.max(curno,curyes);
+    }
+}
