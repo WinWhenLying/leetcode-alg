@@ -1,7 +1,57 @@
-这题真的是要笑死我
 显然为true...
 class Solution {
     public boolean stoneGame(int[] piles) {
         return true;
+    }
+}
+
+动态规划，看讨论区才弄明白的
+2D
+dp[i][j]是用piles的从i到j的子数组（包括i,j）计算得到的先手玩家比后手玩家能得到多多少石头
+先手玩家a，后手玩家b，dp[i][j]即石头堆为piles[i]到piles[j]时，a比b能多拿多少石头
+对于数组（i,j）(从i到j), dp[i][j] = Math.max(piles[i]-dp[i+1][j], piles[j]-dp[i][j-1]); 
+     取i，b变为先手，数组变为（i+1,j）,所以a比b多的石头数为piles[i] - dp[i+1][j];  dp[i+1][j]相当于数组（i+1,j）时b比a多的石头数量
+     取j，同理
+边界，dp[i][i] = piles[i], 就一个石头，a拿完就完事了
+递推求解，从对角线（dp[i][i]）一层层往上，每一个数等于它左边的和下面之和，初始只知道对角线，所以就算从对角线依次往上求
+return dp[0][n-1]>0即可； 其实可以看到，dp为一个非负的二维数组
+空间N^2,时间N
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        int[][] dp = new int[piles.length][piles.length];
+        for (int i = 0; i < piles.length; i++) dp[i][i] = piles[i];
+        for (int i = 1; i < piles.length; i++) {
+            for (int j = 0; j < piles.length - i; j++) {
+                dp[j][j + i] = Math.max(piles[j] - dp[j + 1][j + i], piles[j + i] - dp[j][j + i - 1]);
+            }
+        }
+        return dp[0][piles.length - 1] > 0;
+    }
+
+    public static void main(String[] args) {
+        int[] piles = {5, 3, 4, 5};
+        boolean b = new Solution().stoneGame(piles);
+    }
+}
+
+1D，头大，终于弄明白，这里用DP以区别2D的dp
+用到了一个int d来代表第几层，对角线为第0层，右上为第一层，依次往上
+每一个d的for循环做完，DP[i] = dp[i][i+d], 即第d层的DP[i]代表2D情况下的dp[i][i+d]
+由于d更新后，内部for做之前，DP保留的还是上一个d，也就是d-1下的DP
+感觉还没完全弄明白，有点晕
+总之就是每一个d对应每一个对角线，d=0主对角线,d++对角线往右上移动
+每次更新DP都利用了之前的DP并替换掉了再也不用的DP[i]
+class Solution {
+    public boolean stoneGame(int[] p) {
+        int[] dp = Arrays.copyOf(p, p.length);;
+        for (int d = 1; d < p.length; d++)
+            for (int i = 0; i < p.length - d; i++)
+                dp[i] = Math.max(p[i] - dp[i + 1], p[i + d] - dp[i]);
+        return dp[0] > 0;
+    }
+
+    public static void main(String[] args) {
+        int[] piles = {5, 3, 4, 5};
+        boolean b = new Solution().stoneGame(piles);
     }
 }
