@@ -1,0 +1,20 @@
+简单题
+class Solution {
+    private HashMap<Integer, Employee> mp;
+
+    public int getImportance(List<Employee> employees, int id) {
+        mp = new HashMap<>();
+        for (Employee emp : employees)
+            mp.put(emp.id, emp);
+        return getImportance(id);
+
+    }
+
+    private int getImportance(int id) {
+        Employee root = mp.get(id);
+        int count = root.importance;
+        for (int sub : root.subordinates)
+            count += getImportance(sub);
+        return count;
+    }
+}
