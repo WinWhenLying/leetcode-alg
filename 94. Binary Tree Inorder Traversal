@@ -1,0 +1,17 @@
+0ms 100%
+中序遍历
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> arr = new ArrayList<>();
+        inorder(root, arr);
+        return arr;
+    }
+
+    private void inorder(TreeNode root, List<Integer> arr) {
+        if (root == null)
+            return;
+        inorder(root.left, arr);
+        arr.add(root.val);
+        inorder(root.right, arr);
+    }
+}
