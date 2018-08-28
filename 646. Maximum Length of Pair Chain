@@ -1,0 +1,28 @@
+自己想出来的
+先排序，第二个数小的在前面
+一次遍历，先取第一个，记录当前的右端点，然后往后找，左端点大于右端点的连上去，更新右端点，count++
+25ms 87%
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        Arrays.sort(pairs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] - o2[1];
+            }
+        });
+        int count = 1;
+        int last = pairs[0][1];
+        for (int i = 1; i < pairs.length; i++) {
+            if (pairs[i][0] > last) {
+                count++;
+                last = pairs[i][1];
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[][] pairs = {{-6, 9}, {1, 6}, {8, 10}, {-1, 4}, {-6, -2}, {-9, 8}, {-5, 3}, {0, 3}};
+        int i = new Solution().findLongestChain(pairs);
+    }
+}
