@@ -1,0 +1,26 @@
+动态规划，还是挺麻烦的，不看讨论区根本不知道怎么做
+思路在这：https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/discuss/108811/JavaDP(With-Explanation)
+补充：s1[i]!=s2[j]的第三种 dp[i+1][j+1] = s1[i]+s2[j]+dp[i][j]是不需要的，因为前两种包括了
+dp[i+1][j+1] = s1[i]+dp[i][j+1] = s1[i]+s2[j]+dp[i][j];
+
+class Solution {
+    public int minimumDeleteSum(String s1, String s2) {
+        char[] ch1 = s1.toCharArray();
+        char[] ch2 = s2.toCharArray();
+        int[][] minDelete = new int[ch1.length + 1][ch2.length + 1];
+        for (int i = 0; i < ch1.length; i++)
+            minDelete[i + 1][0] = minDelete[i][0] + ch1[i];
+        for (int i = 0; i < ch2.length; i++)
+            minDelete[0][i + 1] = minDelete[0][i] + ch2[i];
+        for (int i = 0; i < ch1.length; i++) {
+            for (int j = 0; j < ch2.length; j++) {
+                if (ch1[i] == ch2[j]) {
+                    minDelete[i + 1][j + 1] = minDelete[i][j];
+                } else {
+                    minDelete[i + 1][j + 1] = Math.min(ch1[i] + minDelete[i][j + 1], ch2[j] + minDelete[i + 1][j]);
+                }
+            }
+        }
+        return minDelete[ch1.length][ch2.length];
+    }
+}
