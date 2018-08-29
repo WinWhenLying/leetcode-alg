@@ -1,0 +1,41 @@
+除了2，3是特例，因为它们的因子里面必须要有一个1,1的存在只会使乘积变小
+dp[n] = Math.max(dp[n-i]*dp[i])   i>=2  多元拆分是可以由二元拆分得到的
+1ms 54%
+class Solution {
+    public int integerBreak(int n) {
+        if (n == 2 || n == 3)
+            return n - 1;
+        int[] dp = new int[n + 1];
+        dp[2] = 2;
+        dp[3] = 3;
+        int max, current;
+        for (int i = 4; i <= n; i++) {
+            max = 0;
+            for (int j = 2; j < i - 1; j++) {
+                current = dp[j] * dp[i - j];
+                if (current > max)
+                    max = current;
+            }
+            dp[i] = max;
+        }
+        return dp[n];
+    }
+}
+
+最快的直接找到了最优拆分方法，拆成2和3的乘积（除了2,3是特例）
+0ms, 100%
+class Solution {
+    public int integerBreak(int n) {
+        if (n == 2 || n == 3)
+            return n - 1;
+        int num2 = 0;
+        int num3 = n / 3;
+        int extra = n - num3 * 3;
+        if (extra == 1) {
+            num3--;
+            num2 = 2;
+        } else if (extra == 2)
+            num2 = 1;
+        return (int) (Math.pow(3, num3) * Math.pow(2, num2));
+    }
+}
