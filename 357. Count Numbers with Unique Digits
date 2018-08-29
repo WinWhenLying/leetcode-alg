@@ -1,0 +1,25 @@
+特例：n==0, return 1; 
+将0视为0位数
+1位数是在0位数基础上加一个数字，0不能加，有9种加法，count[1] = count[0]*9;
+2位数是在1位数的基础上加一个数字，1-9每个都有一个数不能加，9种加法，count[2] = count[1]*9;
+3位数， count[3] = count[2]*8
+即count[i] = count[i-1]*(11-i) , i=1除外
+总数，返回值即对count求和
+
+0ms 100%
+// count[i]是i位数的个数（无重复数字）
+class Solution {
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0)
+            return 1;
+        int[] count = new int[n + 1];
+        int sum = 10;
+        count[0] = 1;
+        count[1] = 9;
+        for (int i = 2; i <= n; i++) {
+            count[i] = count[i - 1] * (11 - i);
+            sum += count[i];
+        }
+        return sum;
+    }
+}
