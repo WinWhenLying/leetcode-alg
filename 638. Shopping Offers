@@ -1,0 +1,62 @@
+像是0-1背包问题，也像是dfs
+我这个挺麻烦的
+18ms 36%
+class Solution {
+    private int min;
+
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        int needSum = 0;
+        min = Integer.MAX_VALUE;
+        List<Integer> current = new ArrayList<>(needs.size());
+        for (int i = 0; i < needs.size(); i++) {
+            needSum += needs.get(i);
+            current.add(0);
+        }
+        dfs(price, special, needSum, needs, 0, 0, current);
+        return min;
+    }
+
+    private void dfs(List<Integer> price, List<List<Integer>> special, int needSum,
+                     List<Integer> needs, int index, int cost, List<Integer> current) {
+        if (cost >= min)
+            return;
+        int enou = enough(current, needs, needSum);
+        if (enou > 0)
+            return;
+        else if (enou == 0) {
+            min = cost;
+            return;
+        } else {
+            if (index == special.size()) {
+                for (int i = 0; i < needs.size(); i++)
+                    cost += (needs.get(i) - current.get(i)) * price.get(i);
+                if (cost < min)
+                    min = cost;
+            } else {
+                dfs(price, special, needSum, needs, index + 1, cost, current);
+                List<Integer> next = new ArrayList<>(current.size());
+                for (int i = 0; i < needs.size(); i++)
+                    next.add(current.get(i) + special.get(index).get(i));
+                dfs(price, special, needSum, needs, index, cost + special.get(index).get(needs.size()), next);
+            }
+        }
+    }
+
+    private List<Integer> add(List<Integer> a, List<Integer> b) {
+        List<Integer> ans = new ArrayList<>(a.size());
+        for (int i = 0; i < a.size(); i++)
+            ans.add(a.get(i) + b.get(i));
+        return ans;
+    }
+
+    // enough return 0; more than needs return 1; less return negative;
+    private int enough(List<Integer> current, List<Integer> needs, int needSum) {
+        int Cursum = 0;
+        for (int i = 0; i < needs.size(); i++) {
+            if (current.get(i) > needs.get(i))
+                return 1;
+            Cursum += current.get(i);
+        }
+        return Cursum - needSum;
+    }
+}
