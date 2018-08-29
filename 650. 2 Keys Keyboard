@@ -1,0 +1,174 @@
+素数的话return n，因为没法拆，只能一个个的复制
+非素数，dp[n] = Math.min(dp[i]+dp[n/i]);  i是n的因子，选其中最小的那一组
+8ms 74%
+class Solution {
+    public int minSteps(int n) {
+        if (n == 1)
+            return 0;
+        if (n <= 5)
+            return n;
+        List<Integer> factor = calFactor(n);
+        if (factor.size() == 0)
+            return n;
+        int min = n;
+        for (int i : factor) {
+            int current = minSteps(i) + minSteps(n/i);
+            if (current < min)
+                min = current;
+        }
+        return min;
+    }
+
+    // n>5
+    private List<Integer> calFactor(int n) {
+        List<Integer> factor = new ArrayList<>();
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                factor.add(i);
+        }
+        return factor;
+    }
+
+    public static void main(String[] args) {
+        int a = new Solution().minSteps(6);
+    }
+}
+
+19ms 64%
+以空间换时间，反而更慢了，因为计算了很多无用值
+class Solution {
+    public int minSteps(int n) {
+        if (n == 1)
+            return 0;
+        if (n <= 5)
+            return n;
+        int[] dp = new int[n + 1];
+        for (int i = 1; i <= 5; i++)
+            dp[i] = i;
+        for (int i = 6; i <= n; i++) {
+            List<Integer> factor = calFactor(i);
+            dp[i] = i;
+            for (int k : factor) {
+                int current = dp[k] + dp[i / k];
+                if (current < dp[i])
+                    dp[i] = current;
+            }
+        }
+        return dp[n];
+    }
+
+    // n>5
+    private List<Integer> calFactor(int n) {
+        List<Integer> factor = new ArrayList<>();
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                factor.add(i);
+        }
+        return factor;
+    }
+
+    public static void main(String[] args) {
+        int a = new Solution().minSteps(18);
+    }
+}
+
+6ms 85%
+把计算过的存起来
+class Solution {
+    int[] dp;
+    public int minSteps(int n) {
+        if (n == 1)
+            return 0;
+        if (n <= 5)
+            return n;
+        dp = new int[n+1];
+        for(int i=2;i<=5;i++)
+            dp[i]=i;
+        return getMin(n);
+    }
+    private int getMin(int n){
+        if(dp[n]==0){
+            List<Integer> factor = calFactor(n);
+            dp[n]=n;
+            for(int i:factor){
+                int current = getMin(i)+getMin(n/i);
+                if(current<dp[n])
+                    dp[n]=current;
+            }
+        }
+        return dp[n];
+    }
+
+    // n>5
+    private List<Integer> calFactor(int n) {
+        List<Integer> factor = new ArrayList<>();
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                factor.add(i);
+        }
+        return factor;
+    }
+
+    public static void main(String[] args) {
+        int a = new Solution().minSteps(6);
+    }
+}
+
+最快的，别人的答案
+先2分，再用3分，再用4分。。。
+2分理论上是最快的
+class Solution {
+    public int minSteps(int n) {
+        int ans = 0, d = 2;
+        while (n > 1) {
+            while (n % d == 0) {
+                ans += d;
+                n /= d;
+            }
+            d++;
+        }
+        return ans;
+    }
+}
+
+其实用任意因子的组合得到的值是一样的
+5ms 100%
+class Solution {
+    int[] dp;
+
+    public int minSteps(int n) {
+        if (n == 1)
+            return 0;
+        if (n <= 5)
+            return n;
+        dp = new int[n + 1];
+        for (int i = 2; i <= 5; i++)
+            dp[i] = i;
+        return getMin(n);
+    }
+
+    private int getMin(int n) {
+        if (dp[n] == 0) {
+            int factor = calFactor(n);
+            if (factor == -1) {
+                dp[n] = n;
+            } else {
+                dp[n] = getMin(factor) + getMin(n/factor);
+            }
+        }
+        return dp[n];
+    }
+
+    // n>5
+    private int calFactor(int n) {
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0)
+                return i;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int a = new Solution().minSteps(12);
+    }
+}
