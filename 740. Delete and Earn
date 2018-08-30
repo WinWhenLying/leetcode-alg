@@ -1,0 +1,25 @@
+自己想的太复杂了
+    排序，然后从前往后，当前值要或者不要，找下一个值的位置，下一个值是不是等于当前值+1，一大堆的判断
+    超时
+讨论区的答案
+
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        if (nums.length == 0)
+            return 0;
+        int max = nums[0];
+        for (int n : nums)
+            if (n > max)
+                max = n;
+        int[] count = new int[max + 1];
+        for (int n : nums)
+            count[n] += n;
+        int[] dp = new int[max + 1];
+        dp[0] = 0;
+        dp[1] = count[1];
+        for (int i = 2; i < dp.length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + count[i]);
+        }
+        return dp[max];
+    }
+}
