@@ -1,0 +1,38 @@
+103ms 53%
+我这个是用递归，应该也算动态规划了，
+class Solution {
+    public int findTargetSumWays(int[] nums, int S) {
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        return cal(nums, 0, S, mp);
+    }
+
+    private int cal(int[] nums, int index, int target, HashMap<Integer, Integer> mp) {
+        int ha = hash(index, target);
+        if (mp.containsKey(ha)) {
+            return mp.get(ha);
+        }
+        int current = 0;
+        if (index == nums.length) {
+            if (target == 0) {
+                current = 1;
+            } else {
+                current = 0;
+            }
+        } else {
+            current = cal(nums, index + 1, target - nums[index], mp) +
+                    cal(nums, index + 1, target + nums[index], mp);
+        }
+        mp.put(ha, current);
+        return current;
+    }
+
+    // nums.length<20 index<20
+    private int hash(int index, int target) {
+        return target * 23 + index;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {9,7,0,3,9,8,6,5,7,6};
+        int a = new Solution().findTargetSumWays(nums,2);
+    }
+}
