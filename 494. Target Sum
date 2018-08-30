@@ -36,3 +36,33 @@ class Solution {
         int a = new Solution().findTargetSumWays(nums,2);
     }
 }
+
+https://leetcode.com/problems/target-sum/discuss/97334/Java-(15-ms)-C++-(3-ms)-O(ns)-iterative-DP-solution-using-subset-sum-with-explanation
+讨论区的算法，很机智
+
+class Solution {
+    public int findTargetSumWays(int[] nums, int S) {
+        int sum = 0;
+        for (int n : nums)
+            sum += n;
+        if (S > sum || ((sum + S) & 1) == 1)
+            return 0;
+        return pathNum(nums, (sum + S) / 2);
+    }
+
+    private int pathNum(int[] nums, int target) {
+        int[] path = new int[target + 1];
+        path[0] = 1;
+        for (int n : nums) {
+            for (int i = target; i >= n; i--) {
+                path[i] += path[i - n];
+            }
+        }
+        return path[target];
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {9, 7, 0, 3, 9, 8, 6, 5, 7, 6};
+        int a = new Solution().findTargetSumWays(nums, 2);
+    }
+}
