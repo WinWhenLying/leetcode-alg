@@ -1,0 +1,30 @@
+找子数组的和能不能得到一个指定值
+0-1背包问题
+用dfs很简单，不用dfs如下
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int n : nums)
+            sum += n;
+        if ((sum & 1) == 1)
+            return false;
+        sum >>= 1;
+        boolean[] get = new boolean[sum + 1];
+        get[0] = true;
+        for (int n : nums) {
+            // 这里要倒着来，如果从小到大，就相当于有n个相同的小值可以用
+            // n=1, dp[1]=true dp[2]=true....
+            for (int i = sum; i > 0; i--) {
+                if (i >= n)
+                    get[i] = get[i] || get[i - n];
+            }
+            if (get[sum])
+                return true;
+        }
+        return get[sum];
+    }
+
+    public static void main(String[] args) {
+        boolean b = new Solution().canPartition(new int[]{1, 2, 5});
+    }
+}
