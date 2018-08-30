@@ -1,6 +1,6 @@
 找子数组的和能不能得到一个指定值
 0-1背包问题
-用dfs很简单，不用dfs如下
+用dfs很简单，dfs超时了，不用dfs如下
 class Solution {
     public boolean canPartition(int[] nums) {
         int sum = 0;
