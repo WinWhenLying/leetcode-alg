@@ -22,7 +22,7 @@ class Solution {
 
 from other  32ms 99.25%
 时间O(m*n),空间O（n）
-
+这个其实是将上面的2维数组转化成1维，因为求下一行都只用到上一行的数据
 class Solution {
     public int findLength(int[] A, int[] B) {
         int[] maxLen = new int[B.length+1];
