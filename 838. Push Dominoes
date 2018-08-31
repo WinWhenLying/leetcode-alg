@@ -1,0 +1,90 @@
+自己想的，很慢
+31ms 14%
+class Solution {
+    public String pushDominoes(String dominoes) {
+        int len = dominoes.length();
+        int[] status = new int[len];
+        ArrayList<Integer> right = new ArrayList<>();
+        int last = -1;
+        for (int i = 0; i < len; i++) {
+            if (dominoes.charAt(i) == 'L') {
+                status[i] = -len;
+                for (int j = i - 1; j > last; j--)
+                    status[j] = status[j + 1] + 1;
+                last = i;
+            } else if (dominoes.charAt(i) == 'R') {
+                right.add(i);
+                last = i;
+            }
+        }
+        last = len;
+        for (int j = right.size() - 1; j >= 0; j--) {
+            int n = right.get(j);
+            status[n] = len;
+            for (int i = 1; n + i < last; i++) {
+                status[n + i] += len - i;
+                if (status[n + i] <= 0)
+                    break;
+            }
+            last = n;
+        }
+        StringBuilder str = new StringBuilder();
+        for (int n : status) {
+            if (n == 0)
+                str.append('.');
+            else if (n < 0)
+                str.append('L');
+            else
+                str.append('R');
+        }
+        return str.toString();
+    }
+
+    public static void main(String[] args) {
+        String str = new Solution().pushDominoes("RR.L");
+    }
+}
+
+
+讨论区的，机智很多
+还是要先分析题目，分类
+StringBuilder用char[]会更快
+class Solution {
+    public String pushDominoes(String dominoes) {
+        dominoes = 'L' + dominoes + 'R';
+        StringBuilder str = new StringBuilder();
+        for (int last = 0, j = 1; j < dominoes.length(); j++) {
+            if (dominoes.charAt(j) == '.') continue;
+            int len = j - last;
+            if (last != 0)
+                str.append(dominoes.charAt(last));
+            if (dominoes.charAt(last) == 'L') {
+                if (dominoes.charAt(j) == 'L') {
+                    for (int k = 1; k < len; k++)
+                        str.append('L');
+                } else {
+                    for (int k = 1; k < len; k++)
+                        str.append('.');
+                }
+            } else {
+                if (dominoes.charAt(j) == 'R')
+                    for (int k = 1; k < len; k++)
+                        str.append('R');
+                else {
+                    for (int k = 0; k < (len - 1) / 2; k++)
+                        str.append('R');
+                    if ((len & 1) == 0)
+                        str.append('.');
+                    for (int k = 0; k < (len - 1) / 2; k++)
+                        str.append('L');
+                }
+            }
+            last = j;
+        }
+        return str.toString();
+    }
+
+    public static void main(String[] args) {
+        String str = new Solution().pushDominoes("RR.L");
+    }
+}
