@@ -1,0 +1,15 @@
+股票问题，忘记哪个讨论区里面有详细解答了
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length < 2)
+            return 0;
+        int ti0 = 0, ti1 = Integer.MIN_VALUE, ti0Last2 = 0, ti0Last1 = 0;
+        for (int price : prices) {
+            ti0Last2 = ti0Last1;
+            ti0Last1 = ti0;
+            ti0 = Math.max(ti0, ti1 + price);
+            ti1 = Math.max(ti1, ti0Last2 - price);
+        }
+        return ti0;
+    }
+}
