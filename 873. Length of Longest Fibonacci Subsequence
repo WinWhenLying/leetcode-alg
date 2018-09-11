@@ -1,0 +1,50 @@
+答案里最快的答案思路，不完全一样
+32ms,98%
+
+class Solution {
+    public int lenLongestFibSubseq(int[] A) {
+        int max = 0;
+        for (int i = A.length - 1; i > 1; i--) {
+            int lo = 0, hi = i - 1;
+            while (lo < hi) {
+                if (A[lo] + A[hi] == A[i]) {
+                    int left = lo, right = hi;
+                    int count = 3;
+                    int last = binarySearch(A, A[right] - A[left], left - 1);
+                    while (last != -1) {
+                        count++;
+                        right = left;
+                        left = last;
+                        last = binarySearch(A, A[right] - A[left], left - 1);
+                    }
+                    if (count > max)
+                        max = count;
+                    lo++;
+                    hi--;
+                } else if (A[lo] + A[hi] < A[i])
+                    lo++;
+                else
+                    hi--;
+            }
+        }
+        return max;
+    }
+
+    public int binarySearch(int[] A, int goal, int right) {
+        int left = 0;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (A[mid] == goal)
+                return mid;
+            else if (A[mid] < goal)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int len = new Solution().lenLongestFibSubseq(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
+    }
+}
