@@ -1,0 +1,56 @@
+想不出来，讨论区的以及最快的答案
+其实也没那么难
+class Solution {
+    public int largestOverlap(int[][] A, int[][] B) {
+        int n = A.length;
+        ArrayList<Integer> LA = new ArrayList<>();
+        ArrayList<Integer> LB = new ArrayList<>();
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (A[i][j] == 1)
+                    LA.add(i * 100 + j);
+                if (B[i][j] == 1)
+                    LB.add(i * 100 + j);
+            }
+        }
+        for (int i : LA)
+            for (int j : LB)
+                mp.put(i - j, mp.getOrDefault(i - j, 0) + 1);
+
+        int ans = 0;
+        for (int i : mp.values())
+            if (i > ans)
+                ans = i;
+        return ans;
+    }
+}
+
+class Solution {
+    public int largestOverlap(int[][] A, int[][] B) {
+        int n = A.length;
+        int[][] count = new int[2*n][2*n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(A[i][j] == 1){
+                    for(int k = 0; k < n; k++){
+                        for(int l = 0; l < n; l++){
+                            if(B[k][l] == 1){
+                                count[i - k + n][j - l + n] += 1;
+                            }
+                        }   
+                    }
+                }
+            }
+        }
+        
+        int ans = 0;
+        for (int i=0; i < count.length; i++) {
+            for (int j=0; j < count[0].length; j++) {
+                ans = Math.max(ans, count[i][j]);
+            }      
+        }
+            
+        return ans;
+    }
+}
