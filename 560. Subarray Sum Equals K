@@ -1,0 +1,15 @@
+90%
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        HashMap<Integer, Integer> sumSoFar = new HashMap<>();
+        sumSoFar.put(0, 1);
+        int currentSum = 0;
+        int count = 0;
+        for (int n : nums) {
+            currentSum += n;
+            count += sumSoFar.getOrDefault(currentSum - k, 0);
+            sumSoFar.put(currentSum, sumSoFar.getOrDefault(currentSum, 0) + 1);
+        }
+        return count;
+    }
+}
