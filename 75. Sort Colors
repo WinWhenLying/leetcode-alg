@@ -1,0 +1,31 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        int lt = -1;
+        for (int i = 0, j = nums.length - 1; i <= j; ) {
+            if (nums[i] == 1) {
+                if (lt == -1)
+                    lt = i;
+                i++;
+            } else if (nums[i] < 1) {
+                if (lt != -1) {
+                    exch(nums, i, lt);
+                    lt++;
+                }
+                i++;
+            } else {
+                exch(nums, i, j);
+                j--;
+            }
+        }
+    }
+
+    private void exch(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+
+    public static void main(String[] args) {
+        new Solution().sortColors(new int[]{2, 0, 1});
+    }
+}
