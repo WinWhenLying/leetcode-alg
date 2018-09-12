@@ -1,0 +1,31 @@
+先排序，前处理！！
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ls = new ArrayList<>();
+        add(ls, nums, 0, new ArrayList<>());
+        return ls;
+    }
+
+    private void add(List<List<Integer>> ls, int[] nums, int index, List<Integer> current) {
+        if (index == nums.length) {
+            List<Integer> sub = new ArrayList<>(current);
+            ls.add(sub);
+            return;
+        }
+        int next = index + 1;
+        while (next < nums.length && nums[next] == nums[index])
+            next++;
+        int count = next - index;
+        add(ls, nums, next, current);
+        ArrayList<Integer> temp = new ArrayList<>(current);
+        for (int i = 0; i < count; i++) {
+            temp.add(nums[index]);
+            add(ls, nums, next,temp);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<List<Integer>> ls = new Solution().subsetsWithDup(new int[]{1,2,2});
+    }
+}
