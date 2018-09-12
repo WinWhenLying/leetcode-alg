@@ -1,0 +1,54 @@
+傻逼暴力求解法（自己想的）
+class Solution {
+    public int[] advantageCount(int[] A, int[] B) {
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        TreeSet<Integer> st = new TreeSet<>();
+        for (int i : A) {
+            mp.put(i, mp.getOrDefault(i, 0) + 1);
+            st.add(i);
+        }
+        int[] ans = new int[A.length];
+        for (int i = B.length-1; i >= 0; i--) {
+            int n = 0;
+            if (st.higher(B[i]) != null) {
+                n = st.higher(B[i]);
+                ans[i] = n;
+            } else {
+                n = st.first();
+                ans[i] = n;
+            }
+            mp.put(n, mp.get(n) - 1);
+            if (mp.get(n) == 0)
+                st.remove(n);
+        }
+        return ans;
+    }
+}
+
+讨论区的，利用堆排序（优先队列）
+class Solution {
+    public int[] advantageCount(int[] A, int[] B) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o2[0] - o1[0];
+            }
+        });
+        for (int i = 0; i < B.length; i++)
+            pq.add(new int[]{B[i], i});
+        Arrays.sort(A);
+        int lo = 0, hi = A.length - 1;
+        int[] ans = new int[A.length];
+        while (lo <= hi) {
+            int[] temp = pq.poll();
+            if (A[hi] > temp[0]) {
+                ans[temp[1]] = A[hi];
+                hi--;
+            } else {
+                ans[temp[1]] = A[lo];
+                lo++;
+            }
+        }
+        return ans;
+    }
+}
