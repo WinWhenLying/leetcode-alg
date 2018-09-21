@@ -26,3 +26,70 @@ class MyCalendarTwo {
 }
 
 还有一个算法是用线段树（segment tree）
+泪流满面，将讨论区的改写了
+
+class MyCalendarTwo {
+    private SegmentTreeNode root;
+
+    private static class SegmentTreeNode {
+        int l, r;
+        int k, lazy;
+        SegmentTreeNode left, right;
+
+        SegmentTreeNode(int l, int r, int k) {
+            this.l = l;
+            this.r = r;
+            this.k = k;
+        }
+    }
+
+    private int query(SegmentTreeNode node, int l, int r) {
+        if (node == null || l > node.r || r < node.l)
+            return 0;
+        if (l <= node.l && r >= node.r)
+            return node.k;
+        queryHelper(node, l, r);
+        return Math.max(query(node.left, l, r), query(node.right, l, r));
+    }
+
+    private void queryHelper(SegmentTreeNode node, int l, int r) {
+        if (node.left == null) {
+            int mid = node.l + (node.r - node.l) / 2;
+            node.left = new SegmentTreeNode(node.l, mid, node.k);
+            node.right = new SegmentTreeNode(mid + 1, node.r, node.k);
+        }
+    }
+
+    private void update(SegmentTreeNode node, int l, int r, int val) {
+        if (node == null || node.l > r || node.r < l)
+            return;
+        if (node.left == null && node.l >= l && node.r <= r) {
+            node.k += val;
+            return;
+        }
+        update(node.left, l, r, val);
+        update(node.right, l, r, val);
+        node.k = Math.max(getK(node.left), getK(node.right));
+    }
+
+    private int getK(SegmentTreeNode node) {
+        if (node == null)
+            return 0;
+        return node.k;
+    }
+
+    public MyCalendarTwo() {
+        root = new SegmentTreeNode(0, Integer.MAX_VALUE, 0);
+    }
+
+    public boolean book(int start, int end) {
+        int k = query(root, start, end - 1);
+        if (k >= 2) return false;
+        update(root, start, end - 1, 1);
+        return true;
+    }
+
+    public static void main(String[] args) {
+    }
+}
+
