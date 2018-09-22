@@ -27,6 +27,7 @@ class MyCalendarTwo {
 
 还有一个算法是用线段树（segment tree）
 泪流满面，将讨论区的改写了
+134ms 82%
 
 class MyCalendarTwo {
     private SegmentTreeNode root;
@@ -69,13 +70,7 @@ class MyCalendarTwo {
         }
         update(node.left, l, r, val);
         update(node.right, l, r, val);
-        node.k = Math.max(getK(node.left), getK(node.right));
-    }
-
-    private int getK(SegmentTreeNode node) {
-        if (node == null)
-            return 0;
-        return node.k;
+        node.k = Math.max(node.left.k, node.right.k);
     }
 
     public MyCalendarTwo() {
@@ -88,8 +83,4 @@ class MyCalendarTwo {
         update(root, start, end - 1, 1);
         return true;
     }
-
-    public static void main(String[] args) {
-    }
 }
-
