@@ -1,0 +1,18 @@
+只能想到暴力求解
+讨论区看到的O(n)
+// height[left]<height[right], 那么左指针左移才可能取得更大值，右指针右移必然是更小值
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0, right = height.length - 1;
+        int area = 0;
+        while (left < right) {
+            area = Math.max(area, (Math.min(height[left], height[right]) * (right - left)));
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return area;
+    }
+}
