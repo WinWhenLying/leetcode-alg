@@ -1,0 +1,68 @@
+自己想的，2ms,9%, 时间复杂度不止O(N)
+// 原地处理
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int count = nums.length;
+        boolean duplicated = false;
+        int lasti = 0;
+        for (int i = 1; i < count; i++) {
+            if (nums[i] == nums[lasti]) {
+                if (duplicated) {
+                    int n = 0;
+                    while (i + n < count && nums[i + n] == nums[lasti]) {
+                        n++;
+                    }
+                    count -= n;
+                    if (i >= count) {
+                        break;
+                    }
+                    for (int k = i; k < count; k++) {
+                        nums[k] = nums[k + n];
+                    }
+                    lasti = i;
+                    duplicated = false;
+                } else {
+                    duplicated = true;
+                }
+            } else {
+                lasti = i;
+                duplicated = false;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] a = {1, 1, 1, 1, 2};
+        int b = new Solution().removeDuplicates(a);
+    }
+}
+
+真O(n), 其他答案
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums.length <= 2)
+            return nums.length;
+        int slow = 2;
+        for (int fast = 2; fast < nums.length; fast++) {
+            if (nums[fast] != nums[slow - 2]) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+        }
+        return slow;
+    }
+}
+// 本质和上面的一样，但是快一点
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int count=0;
+        for(int n:nums){
+            if(count<2||n>nums[count-2])
+                nums[count++]=n;
+            
+        }
+        return count;
+        
+    }
+}
