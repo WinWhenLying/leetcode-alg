@@ -1,0 +1,69 @@
+101ms, 2%,我这丑陋的算法
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(candidates, target, 0, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    private void helper(int[] candidates, int target, int index, ArrayList<Integer> arr, List<List<Integer>> ans) {
+        if (target == 0) {
+            for (List<Integer> a : ans) {
+                if (equal(a, arr))
+                    return;
+            }
+            ans.add(new ArrayList<>(arr));
+            return;
+        } else if (target < 0 || index == candidates.length)
+            return;
+        else {
+            arr.add(candidates[index]);
+            helper(candidates, target - candidates[index], index + 1, arr, ans);
+            arr.remove(arr.size() - 1);
+            helper(candidates, target, index + 1, arr, ans);
+        }
+    }
+
+    private boolean equal(List<Integer> arr1, List<Integer> arr2) {
+        if (arr1.size() != arr2.size()) return false;
+        for (int i = 0; i < arr1.size(); i++)
+            if (arr1.get(i) != arr2.get(i))
+                return false;
+        return true;
+    }
+}
+
+最快的算法
+好好分析他是如何处理重复值的问题
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(candidates, target, 0, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    private void helper(int[] candidates, int target, int start, ArrayList<Integer> arr, List<List<Integer>> ans) {
+        if (target == 0) {
+            ans.add(new ArrayList<>(arr));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (i != start && candidates[i] == candidates[i - 1]) continue;
+            if (target < candidates[i]) return;
+            arr.add(candidates[i]);
+            helper(candidates, target - candidates[i], i + 1, arr, ans);
+            arr.remove(arr.size() - 1);
+        }
+    }
+}
