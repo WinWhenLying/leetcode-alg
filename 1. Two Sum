@@ -1,0 +1,33 @@
+其实还是构造一个hashMap处理更快，因为排序是O(nlogn)
+// HashMap答案看讨论区吧
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[][] arr = new int[nums.length][2];
+        for (int i = 0; i < nums.length; i++) {
+            arr[i][0] = nums[i];
+            arr[i][1] = i;
+        }
+        Arrays.sort(arr, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        int[] ans = {0, 0};
+        for (int i = 0, j = nums.length - 1; i < j; ) {
+            if (arr[i][0] + arr[j][0] == target) {
+                ans[0] = arr[i][1];
+                ans[1] = arr[j][1];
+                break;
+            } else if (arr[i][0] + arr[j][0] > target)
+                j--;
+            else
+                i++;
+        }
+        return ans;
+    }
+}
